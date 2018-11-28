@@ -105,7 +105,6 @@ FINAL ACCURACY: 95.32374100719424% -> [727.0, 333.0]/[762.0, 350.0]
 
 - Fast(both in training part and prediction part)
 - Robustic(Both good on `0` and `1`)
-- 
 
 **My frame**
 
