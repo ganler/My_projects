@@ -8,7 +8,7 @@
 
 > The num of the data is rich.
 >
-> **size**: 55 $\times$ 125 $\times$ 1
+> **size**: 55 x 125 x 1
 >
 > **format**: png
 >
@@ -104,7 +104,7 @@ FINAL ACCURACY: 95.32374100719424% -> [727.0, 333.0]/[762.0, 350.0]
 **Advantages**
 
 - Fast(both in training part and prediction part)
-- Robustic(Both good on `0` and `1`)
+- Robust(Both good on `0` and `1`)
 
 **My frame**
 
