@@ -8,7 +8,7 @@
 >
 > Tongji University.
 >
-> [My blog](ganler.github.io)
+> [My blog](https://ganler.github.io/)
 >
 > 随意转载，但请注明出处。
 
