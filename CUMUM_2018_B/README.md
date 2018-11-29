@@ -28,7 +28,7 @@
 
 - 论文写作
   - 参考别人的优秀论文
-- 编程（Important but necessary）
+- 编程（Important but not necessary）
   - 方便解决问题的语言（尽量不要造轮子）
     - Matlab（如果没有面对对象编程的要求，Matlab应该是最容易学的语言了）
     - Python（API多）
