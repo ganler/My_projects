@@ -53,8 +53,8 @@ class CNN(nn.Module):
             nn.MaxPool2d(2, 2)                          # 16x31
         )
         self.ln = nn.Sequential(
-            nn.Linear(806, 16),
-            nn.Softmax(1),
+            nn.Linear(806, 16), # RELU6 is good
+            nn.LeakyReLU(),
             nn.Linear(16, num_classes)
         )
 
@@ -78,7 +78,7 @@ if __name__ == "__main__":
     DATA_INFO = 'AP_info.csv'
 
     # PARAMETERS
-    num_epoachs = 10
+    num_epoachs = 15
     batch_size = 5
     times4print = 1000 / batch_size  # time for print (I print the info for every * batches)
     classes = ['0', '1']
@@ -153,4 +153,4 @@ if __name__ == "__main__":
             if class_total[i] != 0:
                 print(f"\t[{classes[i]}] : {100 * class_correct[i]/class_total[i]}% -> {class_correct[i]}/{class_total[i]}")
 
-    print(f"\tFor prediction, each image runs for {time_total/sum(class_total)}   s")
+    print(f"\tFor prediction, each image runs for {time_total/sum(class_total)*100} ms")
