@@ -48,14 +48,14 @@ class CNN(nn.Module):
     def __init__(self, num_classes):
         super(CNN, self).__init__()
         self.layer1 = nn.Sequential(
-            nn.Conv2d(1, 2, kernel_size=3, stride=2),   # 55 x 125 x 1 -> (55-3)/2+1=32 x (125-3)/2+1=62 x 1
+            nn.Conv2d(1, 1, kernel_size=3, stride=2),   # 55 x 125 x 1 -> (55-3)/2+1=32 x (125-3)/2+1=62 x 1
             nn.ReLU(),
             nn.MaxPool2d(2, 2)                          # 16x31
         )
         self.ln = nn.Sequential(
-            nn.Linear(806, 16), # RELU6 is good
-            nn.LeakyReLU(),
-            nn.Linear(16, num_classes)
+            nn.Linear(403, 8),
+            nn.ReLU(),
+            nn.Linear(8, num_classes)
         )
 
     def forward(self, x):
@@ -153,4 +153,4 @@ if __name__ == "__main__":
             if class_total[i] != 0:
                 print(f"\t[{classes[i]}] : {100 * class_correct[i]/class_total[i]}% -> {class_correct[i]}/{class_total[i]}")
 
-    print(f"\tFor prediction, each image runs for {time_total/sum(class_total)*100} ms")
+    print(f"\tFor prediction, each image runs for {time_total/sum(class_total)*1000} ms")
