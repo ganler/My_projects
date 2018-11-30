@@ -96,11 +96,12 @@ All this I've done can help the model be more robust on different classification
 Less loss is not a good thing cause it may just show that you're on the overfitting way. All we care is its performance on test data. Like this:
 
 ```python
-	FINAL ACCURACY: 98.20143884892086% -> [755.0, 337.0]/[762.0, 350.0]
-	[0] : 99.08136482939632% -> 755.0/762.0
-	[1] : 96.28571428571429% -> 337.0/350.0
-	For prediction, each image runs for 0.00021314980195593136   s
+	FINAL ACCURACY: 98.7410071942446% -> [754.0, 344.0]/[762.0, 350.0]
+	[0] : 98.9501312335958% -> 754.0/762.0
+	[1] : 98.28571428571429% -> 344.0/350.0
+	For prediction, each image runs for 0.2366411870503387 ms
 ```
+The model is simple and easy-to-train. For armor plate recognization, you're welcome.
 
 **Advantages**
 
@@ -189,14 +190,14 @@ class CNN(nn.Module):
     def __init__(self, num_classes):
         super(CNN, self).__init__()
         self.layer1 = nn.Sequential(
-            nn.Conv2d(1, 2, kernel_size=3, stride=2),   # 55 x 125 x 1 -> (55-3)/2+1=32 x (125-3)/2+1=62 x 1
+            nn.Conv2d(1, 1, kernel_size=3, stride=2),   # 55 x 125 x 1 -> (55-3)/2+1=32 x (125-3)/2+1=62 x 1
             nn.ReLU(),
             nn.MaxPool2d(2, 2)                          # 16x31
         )
         self.ln = nn.Sequential(
-            nn.Linear(806, 16),
-            nn.Softmax(1),
-            nn.Linear(16, num_classes)
+            nn.Linear(403, 8),
+            nn.ReLU(),
+            nn.Linear(8, num_classes)
         )
 
     def forward(self, x):
@@ -219,7 +220,7 @@ if __name__ == "__main__":
     DATA_INFO = 'AP_info.csv'
 
     # PARAMETERS
-    num_epoachs = 10
+    num_epoachs = 15
     batch_size = 5
     times4print = 1000 / batch_size  # time for print (I print the info for every * batches)
     classes = ['0', '1']
@@ -294,7 +295,8 @@ if __name__ == "__main__":
             if class_total[i] != 0:
                 print(f"\t[{classes[i]}] : {100 * class_correct[i]/class_total[i]}% -> {class_correct[i]}/{class_total[i]}")
 
-    print(f"\tFor prediction, each image runs for {time_total/sum(class_total)}   s")
+    print(f"\tFor prediction, each image runs for {time_total/sum(class_total)*1000} ms")
+
 ```
 
 
