@@ -2,7 +2,7 @@
 
 # 高程大作业报告
 
-![img](https://s1.ax1x.com/2018/12/10/FJJNsH.png)
+![img](https://s1.ax1x.com/2018/12/21/FsgNIU.png) 
 
 
 
@@ -535,7 +535,7 @@ void conv2d_apply() {
 	kernel[1] = (cv::Mat_<char>(3, 3) << -1, -1, -1, -1, 8, -1, -1, -1, -1);
 	kernel[2] = (cv::Mat_<char>(3, 3) << -1, -1, 0, -1, 0, 1, 0, 1, 1);
 	kernel[3] = (cv::Mat_<char>(5, 5) << 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-	kernel[4] = (cv::Mat_<char>(5, 5) << 0, 0, -1, 0, 0, 0, 0, -1, 0, 0, 0, 0, -4, 0, 0, 0, 0, -1, 0, 0, 0, 0, -1, 0, 0);
+	kernel[4] = (cv::Mat_<char>(5, 5) << 0, 0, -1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 4, 0, 0, 0, 0, -1, 0, 0, 0, 0, -1, 0, 0);
 	cv::imshow("Original", img);
 	
 	char window_names[5][16] = { "win1", "win2", "win3", "win4", "win5" };
@@ -551,4 +551,3 @@ void conv2d_apply() {
 	cv::destroyAllWindows();
 }
 ```
-
