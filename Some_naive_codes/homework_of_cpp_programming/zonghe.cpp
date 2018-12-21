@@ -1,6 +1,7 @@
 #include <iostream>
 #include <iomanip>
-#include "opencv2/opencv.hpp"
+
+#include <opencv2/opencv.hpp>
 
 /*
 [程序名称]
