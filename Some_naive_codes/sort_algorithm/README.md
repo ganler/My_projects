@@ -1,511 +1,607 @@
-<!doctype html>
-<html>
-<head>
-<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
-<title></title><style type='text/css'>html {overflow-x: initial !important;}:root { --bg-color: #ffffff; --text-color: #333333; --select-text-bg-color: #B5D6FC; --select-text-font-color: auto; --monospace: "Lucida Console",Consolas,"Courier",monospace; }
-html { font-size: 14px; background-color: var(--bg-color); color: var(--text-color); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
-body { margin: 0px; padding: 0px; height: auto; bottom: 0px; top: 0px; left: 0px; right: 0px; font-size: 1rem; line-height: 1.42857143; overflow-x: hidden; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; background-position: inherit inherit; background-repeat: inherit inherit; }
-iframe { margin: auto; }
-a.url { word-break: break-all; }
-a:active, a:hover { outline: 0px; }
-.in-text-selection, ::selection { text-shadow: none; background: var(--select-text-bg-color); color: var(--select-text-font-color); }
-#write { margin: 0px auto; height: auto; width: inherit; word-break: normal; word-wrap: break-word; position: relative; white-space: normal; overflow-x: visible; }
-#write.first-line-indent p { text-indent: 2em; }
-#write.first-line-indent li p, #write.first-line-indent p * { text-indent: 0px; }
-#write.first-line-indent li { margin-left: 2em; }
-.for-image #write { padding-left: 8px; padding-right: 8px; }
-body.typora-export { padding-left: 30px; padding-right: 30px; }
-.typora-export .footnote-line, .typora-export p { white-space: pre-wrap; }
-@media screen and (max-width: 500px) { 
-  body.typora-export { padding-left: 0px; padding-right: 0px; }
-  .CodeMirror-sizer { margin-left: 0px !important; }
-  .CodeMirror-gutters { display: none !important; }
-}
-#write li > figure:first-child { margin-top: -20px; }
-#write ol, #write ul { position: relative; }
-img { max-width: 100%; vertical-align: middle; }
-button, input, select, textarea { color: inherit; font-family: inherit; font-size: inherit; font-style: inherit; font-variant-caps: inherit; font-weight: inherit; font-stretch: inherit; line-height: inherit; }
-input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px; }
-*, ::after, ::before { box-sizing: border-box; }
-#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p, #write pre { width: inherit; }
-#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p { position: relative; }
-h1, h2, h3, h4, h5, h6 { break-after: avoid-page; break-inside: avoid; orphans: 2; }
-p { orphans: 4; }
-h1 { font-size: 2rem; }
-h2 { font-size: 1.8rem; }
-h3 { font-size: 1.6rem; }
-h4 { font-size: 1.4rem; }
-h5 { font-size: 1.2rem; }
-h6 { font-size: 1rem; }
-.md-math-block, .md-rawblock, h1, h2, h3, h4, h5, h6, p { margin-top: 1rem; margin-bottom: 1rem; }
-.hidden { display: none; }
-.md-blockmeta { color: rgb(204, 204, 204); font-weight: 700; font-style: italic; }
-a { cursor: pointer; }
-sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.701961); color: rgb(85, 85, 85); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; cursor: pointer; }
-sup.md-footnote a, sup.md-footnote a:hover { color: inherit; text-transform: inherit; text-decoration: inherit; }
-#write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; }
-figure { overflow-x: auto; margin: 1.2em 0px; max-width: calc(100% + 16px); padding: 0px; }
-figure > table { margin: 0px !important; }
-tr { break-inside: avoid; break-after: auto; }
-thead { display: table-header-group; }
-table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; break-inside: auto; text-align: left; }
-table.md-table td { min-width: 80px; }
-.CodeMirror-gutters { border-right-width: 0px; background-color: inherit; }
-.CodeMirror { text-align: left; }
-.CodeMirror-placeholder { opacity: 0.3; }
-.CodeMirror pre { padding: 0px 4px; }
-.CodeMirror-lines { padding: 0px; }
-div.hr:focus { cursor: none; }
-#write pre { white-space: pre-wrap; }
-#write.fences-no-line-wrapping pre { white-space: pre; }
-#write pre.ty-contain-cm { white-space: normal; }
-.CodeMirror-gutters { margin-right: 4px; }
-.md-fences { font-size: 0.9rem; display: block; break-inside: avoid; text-align: left; overflow: visible; white-space: pre; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; position: relative !important; background-position: inherit inherit; background-repeat: inherit inherit; }
-.md-diagram-panel { width: 100%; margin-top: 10px; text-align: center; padding-top: 0px; padding-bottom: 8px; overflow-x: auto; }
-#write .md-fences.mock-cm { white-space: pre-wrap; }
-.md-fences.md-fences-with-lineno { padding-left: 0px; }
-#write.fences-no-line-wrapping .md-fences.mock-cm { white-space: pre; overflow-x: auto; }
-.md-fences.mock-cm.md-fences-with-lineno { padding-left: 8px; }
-.CodeMirror-line, twitterwidget { break-inside: avoid; }
-.footnotes { opacity: 0.8; font-size: 0.9rem; margin-top: 1em; margin-bottom: 1em; }
-.footnotes + .footnotes { margin-top: 0px; }
-.md-reset { margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: top; text-decoration: none; text-shadow: none; float: none; position: static; width: auto; height: auto; white-space: nowrap; cursor: inherit; line-height: normal; font-weight: 400; text-align: left; box-sizing: content-box; direction: ltr; background-position: 0px 0px; background-repeat: initial initial; }
-li div { padding-top: 0px; }
-blockquote { margin: 1rem 0px; }
-li .mathjax-block, li p { margin: 0.5rem 0px; }
-li { margin: 0px; position: relative; }
-blockquote > :last-child { margin-bottom: 0px; }
-blockquote > :first-child, li > :first-child { margin-top: 0px; }
-.footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; white-space: normal; }
-#write .footnote-line { white-space: pre-wrap; }
-@media print { 
-  body, html { border: 1px solid transparent; height: 99%; break-after: avoid-page; break-before: avoid-page; }
-  #write { margin-top: 0px; border-color: transparent !important; }
-  .typora-export * { -webkit-print-color-adjust: exact; }
-  html.blink-to-pdf { font-size: 13px; }
-  .typora-export #write { padding-left: 1cm; padding-right: 1cm; padding-bottom: 0px; break-after: avoid-page; }
-  .typora-export #write::after { height: 0px; }
-  @page { margin: 20mm 0px; }
-}
-.footnote-line { margin-top: 0.714em; font-size: 0.7em; }
-a img, img a { cursor: pointer; }
-pre.md-meta-block { font-size: 0.8rem; min-height: 0.8rem; white-space: pre-wrap; background-color: rgb(204, 204, 204); display: block; overflow-x: hidden; background-position: initial initial; background-repeat: initial initial; }
-p > img:only-child { display: block; margin: auto; }
-p > .md-image:only-child { display: inline-block; width: 100%; text-align: center; }
-#write .MathJax_Display { margin: 0.8em 0px 0px; }
-.md-math-block { width: 100%; }
-.md-math-block:not(:empty)::after { display: none; }
-[contenteditable="true"]:active, [contenteditable="true"]:focus { outline: 0px; box-shadow: none; }
-.md-task-list-item { position: relative; list-style-type: none; }
-.task-list-item.md-task-list-item { padding-left: 0px; }
-.md-task-list-item > input { position: absolute; top: 0px; left: 0px; margin-left: -1.2em; margin-top: calc(1em - 10px); }
-.math { font-size: 1rem; }
-.md-toc { min-height: 3.58rem; position: relative; font-size: 0.9rem; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; }
-.md-toc-content { position: relative; margin-left: 0px; }
-.md-toc-content::after, .md-toc::after { display: none; }
-.md-toc-item { display: block; color: rgb(65, 131, 196); }
-.md-toc-item a { text-decoration: none; }
-.md-toc-inner:hover { text-decoration: underline; }
-.md-toc-inner { display: inline-block; cursor: pointer; }
-.md-toc-h1 .md-toc-inner { margin-left: 0px; font-weight: 700; }
-.md-toc-h2 .md-toc-inner { margin-left: 2em; }
-.md-toc-h3 .md-toc-inner { margin-left: 4em; }
-.md-toc-h4 .md-toc-inner { margin-left: 6em; }
-.md-toc-h5 .md-toc-inner { margin-left: 8em; }
-.md-toc-h6 .md-toc-inner { margin-left: 10em; }
-@media screen and (max-width: 48em) { 
-  .md-toc-h3 .md-toc-inner { margin-left: 3.5em; }
-  .md-toc-h4 .md-toc-inner { margin-left: 5em; }
-  .md-toc-h5 .md-toc-inner { margin-left: 6.5em; }
-  .md-toc-h6 .md-toc-inner { margin-left: 8em; }
-}
-a.md-toc-inner { font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; }
-.footnote-line a:not(.reversefootnote) { color: inherit; }
-.md-attr { display: none; }
-.md-fn-count::after { content: "."; }
-code, pre, samp, tt { font-family: var(--monospace); }
-kbd { margin: 0px 0.1em; padding: 0.1em 0.6em; font-size: 0.8em; color: rgb(36, 39, 41); background-color: rgb(255, 255, 255); border: 1px solid rgb(173, 179, 185); border-top-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; box-shadow: rgba(12, 13, 14, 0.2) 0px 1px 0px, rgb(255, 255, 255) 0px 0px 0px 2px inset; white-space: nowrap; vertical-align: middle; background-position: initial initial; background-repeat: initial initial; }
-.md-comment { color: rgb(162, 127, 3); opacity: 0.8; font-family: var(--monospace); }
-code { text-align: left; }
-a.md-print-anchor { white-space: pre !important; border: none !important; display: inline-block !important; position: absolute !important; width: 1px !important; right: 0px !important; outline: 0px !important; text-shadow: initial !important; background-position: 0px 0px !important; background-repeat: initial initial !important; }
-.md-inline-math .MathJax_SVG .noError { display: none !important; }
-.md-math-block .MathJax_SVG_Display { text-align: center; margin: 0px; position: relative; text-indent: 0px; max-width: none; max-height: none; min-height: 0px; min-width: 100%; width: auto; overflow-y: hidden; display: block !important; }
-.MathJax_SVG_Display, .md-inline-math .MathJax_SVG_Display { width: auto; margin: inherit; display: inline-block !important; }
-.MathJax_SVG .MJX-monospace { font-family: var(--monospace); }
-.MathJax_SVG .MJX-sans-serif { font-family: sans-serif; }
-.MathJax_SVG { display: inline; font-style: normal; font-weight: 400; line-height: normal; zoom: 90%; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; }
-.MathJax_SVG * { transition: none; }
-.MathJax_SVG_Display svg { vertical-align: middle !important; margin-bottom: 0px !important; }
-.os-windows.monocolor-emoji .md-emoji { font-family: "Segoe UI Symbol", sans-serif; }
-.md-diagram-panel > svg { max-width: 100%; }
-[lang="mermaid"] svg, [lang="flow"] svg { max-width: 100%; }
-[lang="mermaid"] .node text { font-size: 1rem; }
-table tr th { border-bottom-width: 0px; }
-video { max-width: 100%; display: block; margin: 0px auto; }
-iframe { max-width: 100%; width: 100%; border: none; }
-.highlight td, .highlight tr { border: 0px; }
+# 数据结构——排序
+
+## 前言
+
+本次报告包含：
+
+- 测试流程；
+- 排序算法的思考与比较；
+- 个人心得；
+- 源码；
+
+## 测试流程
+
+#### Intro.
+
+对于本次数据结构report，我实现了以下排序：
+
+- **insert sort**
+- **binary insert sort**
+- **shell sort**
+- **bubble sort**
+- **quick sort**(non-iterater version)
+- **select sort**
+- **heap sort**
+- **merge sort**
+
+> 其中除了`merge sort`我使用了递归，其他均为迭代版本。除了以上排序，我还将其结果和std::sort进行了比较，最后写出了一份测试代码。输出结果（删去了排好后的序列的显示）如下：
+
+```c++
+  ==>>  <时间校准>
+程序设计了[1000.00] ms等待，实际等待
+  ==>>  [1001.39] ms
+
+[INSERT SORT]: 
+for 10000 elemets:
+>>> time cost: 10.170700ms
+
+[BI_INSERT SORT]: 
+for 10000 elemets:
+>>> time cost: 2.010200ms
+
+[SHELL SORT]: 
+for 10000 elemets:
+>>> time cost: 0.791100ms
+
+[BUBBLE SORT]: 
+for 10000 elemets:
+>>> time cost: 119.200300ms
+
+[SELECT SORT]: 
+for 10000 elemets:
+>>> time cost: 22.280500ms
+
+[QUICK SORT]: 
+for 10000 elemets:
+>>> time cost: 0.562500ms
+
+[HEAP SORT]: 
+for 10000 elemets:
+>>> time cost: 0.699400ms
+
+[MERGE SORT]: 
+for 10000 elemets:
+>>> time cost: 4.959400ms
+
+[STD SORT]: 
+for 10000 elemets:
+>>> time cost: 0.442800ms
 
 
-.CodeMirror { height: auto; }
-.CodeMirror.cm-s-inner { background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; background-position: inherit inherit; background-repeat: inherit inherit; }
-.CodeMirror-scroll { overflow-y: hidden; overflow-x: auto; z-index: 3; }
-.CodeMirror-gutter-filler, .CodeMirror-scrollbar-filler { background-color: rgb(255, 255, 255); }
-.CodeMirror-gutters { border-right-width: 1px; border-right-style: solid; border-right-color: rgb(221, 221, 221); background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; white-space: nowrap; background-position: inherit inherit; background-repeat: inherit inherit; }
-.CodeMirror-linenumber { padding: 0px 3px 0px 5px; text-align: right; color: rgb(153, 153, 153); }
-.cm-s-inner .cm-keyword { color: rgb(119, 0, 136); }
-.cm-s-inner .cm-atom, .cm-s-inner.cm-atom { color: rgb(34, 17, 153); }
-.cm-s-inner .cm-number { color: rgb(17, 102, 68); }
-.cm-s-inner .cm-def { color: rgb(0, 0, 255); }
-.cm-s-inner .cm-variable { color: rgb(0, 0, 0); }
-.cm-s-inner .cm-variable-2 { color: rgb(0, 85, 170); }
-.cm-s-inner .cm-variable-3 { color: rgb(0, 136, 85); }
-.cm-s-inner .cm-string { color: rgb(170, 17, 17); }
-.cm-s-inner .cm-property { color: rgb(0, 0, 0); }
-.cm-s-inner .cm-operator { color: rgb(152, 26, 26); }
-.cm-s-inner .cm-comment, .cm-s-inner.cm-comment { color: rgb(170, 85, 0); }
-.cm-s-inner .cm-string-2 { color: rgb(255, 85, 0); }
-.cm-s-inner .cm-meta { color: rgb(85, 85, 85); }
-.cm-s-inner .cm-qualifier { color: rgb(85, 85, 85); }
-.cm-s-inner .cm-builtin { color: rgb(51, 0, 170); }
-.cm-s-inner .cm-bracket { color: rgb(153, 153, 119); }
-.cm-s-inner .cm-tag { color: rgb(17, 119, 0); }
-.cm-s-inner .cm-attribute { color: rgb(0, 0, 204); }
-.cm-s-inner .cm-header, .cm-s-inner.cm-header { color: rgb(0, 0, 255); }
-.cm-s-inner .cm-quote, .cm-s-inner.cm-quote { color: rgb(0, 153, 0); }
-.cm-s-inner .cm-hr, .cm-s-inner.cm-hr { color: rgb(153, 153, 153); }
-.cm-s-inner .cm-link, .cm-s-inner.cm-link { color: rgb(0, 0, 204); }
-.cm-negative { color: rgb(221, 68, 68); }
-.cm-positive { color: rgb(34, 153, 34); }
-.cm-header, .cm-strong { font-weight: 700; }
-.cm-del { text-decoration: line-through; }
-.cm-em { font-style: italic; }
-.cm-link { text-decoration: underline; }
-.cm-error { color: red; }
-.cm-invalidchar { color: red; }
-.cm-constant { color: rgb(38, 139, 210); }
-.cm-defined { color: rgb(181, 137, 0); }
-div.CodeMirror span.CodeMirror-matchingbracket { color: rgb(0, 255, 0); }
-div.CodeMirror span.CodeMirror-nonmatchingbracket { color: rgb(255, 34, 34); }
-.cm-s-inner .CodeMirror-activeline-background { background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; background-position: inherit inherit; background-repeat: inherit inherit; }
-.CodeMirror { position: relative; overflow: hidden; }
-.CodeMirror-scroll { height: 100%; outline: 0px; position: relative; box-sizing: content-box; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; background-position: inherit inherit; background-repeat: inherit inherit; }
-.CodeMirror-sizer { position: relative; }
-.CodeMirror-gutter-filler, .CodeMirror-hscrollbar, .CodeMirror-scrollbar-filler, .CodeMirror-vscrollbar { position: absolute; z-index: 6; display: none; }
-.CodeMirror-vscrollbar { right: 0px; top: 0px; overflow: hidden; }
-.CodeMirror-hscrollbar { bottom: 0px; left: 0px; overflow: hidden; }
-.CodeMirror-scrollbar-filler { right: 0px; bottom: 0px; }
-.CodeMirror-gutter-filler { left: 0px; bottom: 0px; }
-.CodeMirror-gutters { position: absolute; left: 0px; top: 0px; padding-bottom: 30px; z-index: 3; }
-.CodeMirror-gutter { white-space: normal; height: 100%; box-sizing: content-box; padding-bottom: 30px; margin-bottom: -32px; display: inline-block; }
-.CodeMirror-gutter-wrapper { position: absolute; z-index: 4; border: none !important; background-position: 0px 0px !important; background-repeat: initial initial !important; }
-.CodeMirror-gutter-background { position: absolute; top: 0px; bottom: 0px; z-index: 4; }
-.CodeMirror-gutter-elt { position: absolute; cursor: default; z-index: 4; }
-.CodeMirror-lines { cursor: text; }
-.CodeMirror pre { border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px; border-width: 0px; font-family: inherit; font-size: inherit; margin: 0px; white-space: pre; word-wrap: normal; color: inherit; z-index: 2; position: relative; overflow: visible; background-position: 0px 0px; background-repeat: initial initial; }
-.CodeMirror-wrap pre { word-wrap: break-word; white-space: pre-wrap; word-break: normal; }
-.CodeMirror-code pre { border-right-width: 30px; border-right-style: solid; border-right-color: transparent; width: fit-content; }
-.CodeMirror-wrap .CodeMirror-code pre { border-right-style: none; width: auto; }
-.CodeMirror-linebackground { position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px; z-index: 0; }
-.CodeMirror-linewidget { position: relative; z-index: 2; overflow: auto; }
-.CodeMirror-wrap .CodeMirror-scroll { overflow-x: hidden; }
-.CodeMirror-measure { position: absolute; width: 100%; height: 0px; overflow: hidden; visibility: hidden; }
-.CodeMirror-measure pre { position: static; }
-.CodeMirror div.CodeMirror-cursor { position: absolute; visibility: hidden; border-right-style: none; width: 0px; }
-.CodeMirror div.CodeMirror-cursor { visibility: hidden; }
-.CodeMirror-focused div.CodeMirror-cursor { visibility: inherit; }
-.cm-searching { background-color: rgba(255, 255, 0, 0.4); background-position: initial initial; background-repeat: initial initial; }
-@media print { 
-  .CodeMirror div.CodeMirror-cursor { visibility: hidden; }
+Process finished with exit code 0
+```
+
+#### 测试设计的细节
+
+在实现算法后，为了对算法进行测试，我考虑了以下几点：
+
+##### 1. 增加单次测试的loop
+
+易知，对于一个程序$\mathcal P$，其耗时为$T(\mathcal P)$。但在测试的时候，由于程序的启动部分（比如说常数级的函数调用，时钟的设定，比如看我代码中的时间校准部分就可以发现有大概0.1%的时间误差）会让我们最终得到的程序的时间$T(\mathcal F)$加上一些常数时间b即：
+$$
+  T(\mathcal F) = T(\mathcal P)+b\ 
+$$
+我们想得到的是$T(\mathcal P)$ ，但最终得到的是$T(\mathcal F)$，如何让两者尽量相等呢？这里我们可以通过增加内部循环次数来进行计算：
+$$
+T(\mathcal F) = \lim_{N\to \infin}\frac{T(\mathcal P)*N+b}{N}=T(\mathcal P)
+$$
+在我的程序中，限于自己的电脑的算力，我将N(对应程序中的`LOOP_SIZE`)设置为100。
+
+##### 2. 使用`chrono::steady_clock`
+
+steady_clock的优点：
+
+- 时间精度高；
+- 稳；
+
+
+
+## 排序算法的思考与比较
+
+#### ranking
+
+就“测试流程”处展示的测试结果而言，对我使用的算法进行时间升序排名可得：
+
+- `std::sort`
+- `quick_sort`
+- `heap_sort`
+- `shell_sort`
+- `binary_insert_sort`
+- `merge_sort`
+- `insert_sort`
+- `select_sort`
+- `bubble_sort`
+
+#### 复杂度分析
+
+> 下面讨论的都是大O标记的最坏情况的复杂度。
+
+- `std::sort`
+
+> O(N logN)
+
+- `quick_sort`
+
+> O(N logN)
+
+- `heap_sort`
+
+> O(N logN)
+
+- `shell_sort`
+
+> It depends on how we define the gap.
+>
+> 而本次代码中我使用的序列来自：
+>
+> >  Pratt, V. Shellsort and sorting networks (Outstanding dissertations in the computer sciences). Garland. 1979. [ISBN 0-824-04406-1](https://zh.wikipedia.org/wiki/Special:%E7%BD%91%E7%BB%9C%E4%B9%A6%E6%BA%90/0-824-04406-1). (This was originally presented as the author's Ph.D. thesis, Stanford University, 1971)
+>
+> ![img](https://s1.ax1x.com/2018/12/27/FRE1p9.png)
+>
+> >  source from [wiki](https://zh.wikipedia.org/wiki/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F).
+
+- `binary_insert_sort`
+
+> O(N)
+
+- `merge_sort`
+
+> O(N logN)
+
+- `insert_sort`
+
+> O(N)
+
+- `select_sort`
+
+> O(N)
+
+- `bubble_sort`
+
+> O(N)
+
+#### 一些关于快与慢的原因
+
+#### std::sort
+
+作为state-of-art的`std::sort`，首先对在数据规模大的时候，使用了快排，而且对于快排中的`partition`（即每次分界的那个数），快排使用了精心设计的随机数，随机设置partition的位置。这就比一般人只取头尾要简单。当快排得差不多了（某种程度的整体有序），这个时候就换插入排序了，对于基本有序的序列，插排的效率会很高。而且插排本身就存在一个常数小的优势，如果依然对几乎有序的序列使用快排，反而更加容易导致排序效率低下。除此之外，因为`std::sort`是编译器方的专业人员书写的，从代码本身到编译器对该算法的优化，都是为了加快整个排序流程，这也是为什么`std::sort`如此之快且稳定的原因。
+
+#### merge sort
+
+归并排序的复杂度低，但是常数较大，每次都存在大量的数组赋值操作，所以比较慢。
+
+#### bubble sort
+
+不管是比较次数还是位置切换次数都稳定在$n^2$…所以能不慢吗...
+
+
+
+## 心得体会
+
+排序算法要考虑2个因素：
+
+- 比较次数；
+- 位置变动次数；
+
+从算法设计层面优化代码有下面这些points：
+
+- 分治；
+- 排序算法的组合；
+
+从编程角度：
+
+- 对于连续迁移的元素，不要一个一个swap（3次操作），而是全都往后推一位，再把多的一位放前头（1次操作）。（详情请见我写的`insert_sort`）
+- 尽量用迭代的方法来书写，便于代码的优化，减少函数调用的时间。
+
+
+## 源码
+
+```c++
+#include <iostream>
+
+#include <array>
+#include <stack>
+#include <vector>
+
+#include <limits>
+#include <random>
+#include <algorithm>
+#include <thread>
+
+#include <iomanip>
+#include <chrono>
+
+/* Written by ganler. Use this code to feel the pipelines of diverse sorts. */
+
+// 分别测试：插入排序√，折半插入排序√，希尔排序√，冒泡排序√，快速排序√，选择排序√，归并排序√，堆排序√
+// 以及最强排序 STL 排序
+// 随机数范围[0, 1000 000]
+// 随机数个数10 000个
+// 测试次数50次（减少常数的影响）
+
+constexpr uint32_t TEST_SIZE = 10000;
+constexpr uint32_t LOOP_SIZE = 10;
+constexpr uint32_t PRECISION = 6;
+constexpr uint32_t SHELL_FACTOR = 3; // For guys who want use a gap function with $n/SHELL_FACTOR^i$
+
+using namespace std;
+
+void time_test()
+{
+    auto start = chrono::steady_clock::now();
+    this_thread::sleep_for(std::chrono::milliseconds(1000));
+    auto end = chrono::steady_clock::now();
+
+    auto diff = end-start;
+
+    cout << "  ==>>  <时间校准>" << endl;
+    cout << "程序设计了[1000.00] ms等待，实际等待" << endl << "  ==>>  [" << chrono::duration<double, milli>(diff).count() << "] ms" << endl;
+}
+
+void print(const array<int, TEST_SIZE>& arr)
+{
+    for(const auto& x : arr)
+        cout << x << ' ';
+    cout << endl;
+}
+
+void insert_sort(const array<int, TEST_SIZE>& data_)
+{
+    auto start = chrono::steady_clock::now();
+    auto data = data_;
+
+    for (int i = 0; i < LOOP_SIZE; ++i)
+    {
+        data = data_;
+        for (int j = 1; j < TEST_SIZE; ++j)
+        {
+            auto tmp = data[j];
+            int k = j;
+            for (; k > 0 && data[k - 1] > tmp; --k) // Must be "data[k-1] > tmp" not "data[k-1] > data[k]"
+                data[k] = data[k - 1];              // "data[k-1] > data[k]" is used in constant swap operation.
+            data[k] = tmp;
+        }
+    }
+
+    auto end = chrono::steady_clock::now();
+    auto diff = (end-start);
+
+    cout << "[INSERT SORT]: " << endl << "for " << TEST_SIZE << " elemets:" << endl;
+    cout << ">>>\t";
+    print(data);
+    cout << ">>> time cost: " << fixed << setprecision(PRECISION)
+         << chrono::duration<double, milli>(diff).count()/LOOP_SIZE << "ms" << endl << endl;
 }
 
 
-html {
-	font-size: 19px;
+void bi_insert_sort(const array<int, TEST_SIZE>& data_)
+{
+    auto start = chrono::steady_clock::now();
+
+    auto data = data_;
+
+    for (int i = 0; i < LOOP_SIZE; ++i)
+    {// 用swap会慢一点（std::swap有2次操作（手写swap有3次）），直接往后拉就只有一次。
+        data = data_;
+        for (int j = 1; j < TEST_SIZE; ++j)
+        {
+            auto tmp = data[j];
+            auto beg = 0;
+            auto end = j-1;
+
+            while(beg <= end)
+            {
+                auto mid = (beg+end)/2;
+                if(data[mid] == tmp)
+                {
+                    beg = mid;
+                    break;
+                }
+                else if(data[mid] < tmp)
+                    beg = mid+1;
+                else
+                    end = mid-1;
+            }
+
+            for (int k = j; k > beg; --k)
+                data[k] = data[k-1];
+
+            data[beg] = tmp;
+        }
+    }
+
+    auto end = chrono::steady_clock::now();
+    auto diff = (end-start);
+
+    cout << "[BI_INSERT SORT]: " << endl << "for " << TEST_SIZE << " elemets:" << endl;
+    cout << ">>>\t";
+    print(data);
+    cout << ">>> time cost: " << fixed << setprecision(PRECISION)
+         << chrono::duration<double, milli>(diff).count()/LOOP_SIZE << "ms" << endl << endl;
 }
 
-html, body {
-	margin: auto;
-	background: #fefefe;
-}
-body {
-	font-family: "Vollkorn", Palatino, Times;
-	color: #333;
-	line-height: 1.4;
-	text-align: justify;
-}
-#write {
-	max-width: 960px;
-	margin: 0 auto;
-	margin-bottom: 2em;
-	line-height: 1.53;
-	padding-top: 40px;
+void shell_sort(const array<int, TEST_SIZE>& data_)
+{
+    auto start = chrono::steady_clock::now();
+
+    auto data = data_;
+
+    for (int k = 0; k < LOOP_SIZE; ++k)
+    {
+        data = data_;
+        /* This part is related to the parameter SHELL_FACTOR */
+//        for (int gap = TEST_SIZE / SHELL_FACTOR; gap > 0; gap /= SHELL_FACTOR)
+//            for (int i = gap; i < TEST_SIZE; ++i)
+//                for (int j = i; j - gap >= 0 && data[j - gap] > data[j]; j -= gap)// Must be j>=gap. Especially "=".
+//                    swap(data[j], data[j - gap]);
+        int step[] = { 1, 5, 19, 41, 109, 209, 505, 929, 2161, 3905 };
+        for (int k = 9; k >= 0; k--)
+        {
+            auto gap = step[k];
+            for (int i = gap; i < TEST_SIZE; ++i)
+                for (int j = i; j - gap >= 0 && data[j - gap] > data[j]; j -= gap)// Must be j>=gap. Especially "=".
+                    swap(data[j], data[j - gap]);
+        }
+    }
+
+    auto end = chrono::steady_clock::now();
+    auto diff = (end-start);
+
+    cout << "[SHELL SORT]: " << endl << "for " << TEST_SIZE << " elemets:" << endl;
+    cout << ">>>\t";
+    print(data);
+    cout << ">>> time cost: " << fixed << setprecision(PRECISION)
+         << chrono::duration<double, milli>(diff).count()/LOOP_SIZE << "ms" << endl << endl;
 }
 
-/* Typography
--------------------------------------------------------- */
+void bubble_sort(const array<int, TEST_SIZE>& data_)
+{
+    auto start = chrono::steady_clock::now();
 
-#write>h1:first-child,
-h1 {
-	margin-top: 1.6em;
-	font-weight: normal;
-}
+    auto data = data_;
 
-h1 {
-	font-size:3em;
-}
+    for (int k = 0; k < LOOP_SIZE; ++k)
+    {
+        data = data_;
+        for (int i = TEST_SIZE-1; i > 0; --i)
+            for (int j = 0; j < i; ++j)
+                if (data[j] > data[j + 1])
+                    swap(data[j], data[j + 1]);
+    }
 
-h2 {
-	margin-top:2em;
-	font-weight: normal;
-}
+    auto end = chrono::steady_clock::now();
+    auto diff = (end-start);
 
-h3 {
-	font-weight: normal;
-	font-style: italic;
-	margin-top: 3em;
-}
-
-h1, 
-h2, 
-h3{
-	text-align: center;
+    cout << "[BUBBLE SORT]: " << endl << "for " << TEST_SIZE << " elemets:" << endl;
+    cout << ">>>\t";
+    print(data);
+    cout << ">>> time cost: " << fixed << setprecision(PRECISION)
+         << chrono::duration<double, milli>(diff).count()/LOOP_SIZE << "ms" << endl << endl;
 }
 
-h2:after{
-	border-bottom: 1px solid #2f2f2f;
-    content: '';
-    width: 100px;
-    display: block;
-    margin: 0 auto;
-    height: 1px;
+
+void quick_sort(const array<int, TEST_SIZE>& data_)
+{
+    auto start = chrono::steady_clock::now();
+
+    auto data = data_;
+    random_device rd_;
+
+    for (int i = 0; i < LOOP_SIZE; ++i)
+    {
+        data = data_;
+        stack<pair<uint32_t, uint32_t>> range_stack;
+        range_stack.push(pair<uint32_t, uint32_t>(0, TEST_SIZE));
+
+        while (!range_stack.empty())
+        {
+            auto range = range_stack.top();
+            range_stack.pop();
+
+            uint32_t partition = data[range.first];
+
+            uint32_t i = range.first, j;
+            for (j = range.first+1; j < range.second; j++)
+                if(data[j] <= partition)
+                    swap(data[++i], data[j]);
+
+            swap(data[i], data[range.first]);
+            if(i > range.first)
+                range_stack.push(pair<uint32_t, uint32_t>(range.first, i));
+            if(i+1 < range.second)
+                range_stack.push(pair<uint32_t, uint32_t>(i+1, range.second));
+        }
+    }
+
+    auto end = chrono::steady_clock::now();
+    auto diff = (end-start);
+
+    cout << "[QUICK SORT]: " << endl << "for " << TEST_SIZE << " elemets:" << endl;
+    cout << ">>>\t";
+    print(data);
+    cout << ">>> time cost: " << fixed << setprecision(PRECISION)
+         << chrono::duration<double, milli>(diff).count()/LOOP_SIZE << "ms" << endl << endl;
 }
 
-h1+h2, h2+h3 {
-	margin-top: 0.83em;
+
+void select_sort(const array<int, TEST_SIZE>& data_)
+{
+    auto start = chrono::steady_clock::now();
+
+    auto data = data_;
+
+    for (int i = 0; i < LOOP_SIZE; ++i)
+    {
+        data = data_;
+        for (int j = 0; j < TEST_SIZE - 1; ++j)
+        {
+            auto min_ind = j;
+            for (int k = j; k < TEST_SIZE; ++k) {
+                if(data[k] < data[min_ind])
+                    min_ind = k;
+            }
+            swap(data[min_ind], data[j]);
+        }
+    }
+
+    auto end = chrono::steady_clock::now();
+    auto diff = (end-start);
+
+    cout << "[SELECT SORT]: " << endl << "for " << TEST_SIZE << " elemets:" << endl;
+    cout << ">>>\t";
+    print(data);
+    cout << ">>> time cost: " << fixed << setprecision(PRECISION)
+         << chrono::duration<double, milli>(diff).count()/LOOP_SIZE << "ms" << endl << endl;
 }
 
-p,
-.mathjax-block {
-	margin-top: 0;
-	-webkit-hypens: auto;
-	-moz-hypens: auto;
-	hyphens: auto;
-}
-ul {
-	list-style: square;
-	padding-left: 1.2em;
-}
-ol {
-	padding-left: 1.2em;
-}
-blockquote {
-	margin-left: 1em;
-	padding-left: 1em;
-	border-left: 1px solid #ddd;
-}
-code,
-pre {
-	font-family: "Consolas", "Menlo", "Monaco", monospace, serif;
-	font-size: .9em;
-	background: white;
-}
-.md-fences{
-	margin-left: 1em;
-	padding-left: 1em;
-	border: 1px solid #ddd;
-	padding-bottom: 8px;
-	padding-top: 6px;
-	margin-bottom: 1.5em;
+void merge(array<int, TEST_SIZE>& arr, uint32_t beg, uint32_t mid, uint32_t end)
+{
+    auto left_vec = vector<int>(arr.begin()+beg, arr.begin()+mid);
+    auto right_vec = vector<int>(arr.begin()+mid, arr.begin()+end);
+
+    uint32_t left_ind = 0;
+    uint32_t right_ind = 0;
+
+    left_vec.insert(left_vec.end(), numeric_limits<int>::max());
+    right_vec.insert(right_vec.end(), numeric_limits<int>::max());
+
+    for(; beg<end; beg++)
+        if(left_vec[left_ind] > right_vec[right_ind])
+            arr[beg] = right_vec[right_ind++];
+        else
+            arr[beg] = left_vec[left_ind++];
 }
 
-a {
-	color: #2484c1;
-	text-decoration: none;
-}
-a:hover {
-	text-decoration: underline;
-}
-a img {
-	border: none;
-}
-h1 a,
-h1 a:hover {
-	color: #333;
-	text-decoration: none;
-}
-hr {
-	color: #ddd;
-	height: 1px;
-	margin: 2em 0;
-	border-top: solid 1px #ddd;
-	border-bottom: none;
-	border-left: 0;
-	border-right: 0;
-}
-.ty-table-edit {
-	background: #ededed;
-    padding-top: 4px;
-}
-table {
-	margin-bottom: 1.333333rem
-}
-table th,
-table td {
-	padding: 8px;
-	line-height: 1.333333rem;
-	vertical-align: top;
-	border-top: 1px solid #ddd
-}
-table th {
-	font-weight: bold
-}
-table thead th {
-	vertical-align: bottom
-}
-table caption+thead tr:first-child th,
-table caption+thead tr:first-child td,
-table colgroup+thead tr:first-child th,
-table colgroup+thead tr:first-child td,
-table thead:first-child tr:first-child th,
-table thead:first-child tr:first-child td {
-	border-top: 0
-}
-table tbody+tbody {
-	border-top: 2px solid #ddd
+void merge_sort_(array<int, TEST_SIZE>& arr, int beg=0, int end=TEST_SIZE)
+{
+    if(beg >= end-1)
+        return;
+    int mid = beg+(end-beg)/2;
+    merge_sort_(arr, beg, mid);
+    merge_sort_(arr, mid, end);
+    merge(arr, beg, mid, end);
 }
 
-.task-list{
-	padding:0;
+
+void merge_sort(const array<int, TEST_SIZE>& data_)
+{
+    auto start = chrono::steady_clock::now();
+
+    auto data = data_;
+
+    for (int i = 0; i < LOOP_SIZE; ++i) {
+        data = data_;
+        merge_sort_(data);
+    }
+
+    auto end = chrono::steady_clock::now();
+    auto diff = (end-start);
+
+    cout << "[MERGE SORT]: " << endl << "for " << TEST_SIZE << " elemets:" << endl;
+    cout << ">>>\t";
+    print(data);
+    cout << ">>> time cost: " << fixed << setprecision(PRECISION)
+         << chrono::duration<double, milli>(diff).count()/LOOP_SIZE << "ms" << endl << endl;
 }
 
-.md-task-list-item {
-	padding-left: 1.6rem;
+inline void max_heapify(array<int, TEST_SIZE>& arr, uint32_t begin, uint32_t end)
+{
+    uint32_t father = begin;
+    uint32_t left_son = 2*father+1;
+
+    while(left_son <= end)
+    {
+        if(left_son+1 <= end && arr[left_son] < arr[left_son+1])
+            left_son++;
+
+        if(arr[father] > arr[left_son])
+            return;
+        else
+        {
+            swap(arr[father], arr[left_son]);
+            father = left_son;
+            left_son = 2*father+1;
+        }
+    }
 }
 
-.md-task-list-item > input:before {
-	content: '\221A';
-	display: inline-block;
-	width: 1.33333333rem;
-  	height: 1.6rem;
-	vertical-align: middle;
-	text-align: center;
-	color: #ddd;
-	background-color: #fefefe;
+void heap_sort(const array<int, TEST_SIZE>& data_)
+{
+    auto start = chrono::steady_clock::now();
+
+    auto data = data_;
+
+    if(TEST_SIZE <= 1){ return; }
+
+    for (int k = 0; k < LOOP_SIZE; ++k) {
+        data = data_;
+        for (int i = TEST_SIZE / 2 - 1; i >= 0; i--)
+            max_heapify(data, i, TEST_SIZE - 1);
+        for (int i = TEST_SIZE - 1; i > 0; i--)
+        {
+            swap(data[0], data[i]);
+            max_heapify(data, 0, i - 1);
+        }
+    }
+
+    auto end = chrono::steady_clock::now();
+    auto diff = (end-start);
+
+    cout << "[HEAP SORT]: " << endl << "for " << TEST_SIZE << " elemets:" << endl;
+    cout << ">>>\t";
+    print(data);
+    cout << ">>> time cost: " << fixed << setprecision(PRECISION)
+         << chrono::duration<double, milli>(diff).count()/LOOP_SIZE << "ms" << endl << endl;
 }
 
-.md-task-list-item > input:checked:before,
-.md-task-list-item > input[checked]:before{
-	color: inherit;
-}
-.md-tag {
-	color: inherit;
-	font: inherit;
-}
-#write pre.md-meta-block {
-	min-height: 35px;
-	padding: 0.5em 1em;
-}
-#write pre.md-meta-block {
-	white-space: pre;
-	background: #f8f8f8;
-	border: 0px;
-	color: #999;
-	
-	width: 100vw;
-	max-width: calc(100% + 60px);
-	margin-left: -30px;
-	border-left: 30px #f8f8f8 solid;
-	border-right: 30px #f8f8f8 solid;
+void std_sort(const array<int, TEST_SIZE>& data_)
+{
+    auto start = chrono::steady_clock::now();
 
-	margin-bottom: 2em;
-	margin-top: -1.3333333333333rem;
-	padding-top: 26px;
-	padding-bottom: 10px;
-	line-height: 1.8em;
-	font-size: 0.9em;
-	font-size: 0.76em;
-	padding-left: 0;
-}
-.md-img-error.md-image>.md-meta{
-	vertical-align: bottom;
-}
-#write>h5.md-focus:before {
-	top: 2px;
+    auto data = data_;
+
+    for (int i = 0; i < LOOP_SIZE; ++i) {
+        data = data_;
+        sort(data.begin(), data.end());
+    }
+
+    auto end = chrono::steady_clock::now();
+    auto diff = (end-start);
+
+    cout << "[STD SORT]: " << endl << "for " << TEST_SIZE << " elemets:" << endl;
+    cout << ">>>\t";
+    print(data);
+    cout << ">>> time cost: " << fixed << setprecision(PRECISION)
+         << chrono::duration<double, milli>(diff).count()/LOOP_SIZE << "ms" << endl << endl;
 }
 
-.md-toc {
-	margin-top: 40px;
-}
+int main(){
+    ios_base::sync_with_stdio(false);
 
-.md-toc-content {
-	padding-bottom: 20px;
-}
+    random_device rd;
+    default_random_engine e{rd()};
+    uniform_int_distribution<int> u{0, 1000000};
 
-.outline-expander:before {
-	color: inherit;
-	font-size: 14px;
-	top: auto;
-	content: "\f0da";
-	font-family: FontAwesome;
-}
+    array<int, TEST_SIZE> test_array;
 
-.outline-expander:hover:before,
-.outline-item-open>.outline-item>.outline-expander:before {
-  	content: "\f0d7";
-}
+    for (int k = 0; k < TEST_SIZE; ++k)
+        test_array[k] = u(e);
 
-/** source code mode */
-#typora-source {
-	font-family: Courier, monospace;
-    color: #6A6A6A;
-}
+    time_test(); // 时间测试
 
-.html-for-mac #typora-sidebar {
-    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
-}
+    cout << endl << "--- 原始数组序列 ---" << endl << ">>>\t";
+    print(test_array);
+    cout << endl;
 
-.cm-s-typora-default .cm-header, 
-.cm-s-typora-default .cm-property,
-.CodeMirror.cm-s-typora-default div.CodeMirror-cursor {
-	color: #428bca;
+    insert_sort(test_array);
+    bi_insert_sort(test_array);
+    shell_sort(test_array);
+    bubble_sort(test_array);
+    select_sort(test_array);
+    quick_sort(test_array);
+    heap_sort(test_array);
+    merge_sort(test_array);
+    std_sort(test_array);
 }
+```
 
-.cm-s-typora-default .cm-atom, .cm-s-typora-default .cm-number {
-	color: #777777;
-}
-
-.typora-node .file-list-item-parent-loc, 
-.typora-node .file-list-item-time, 
-.typora-node .file-list-item-summary {
-	font-family: arial, sans-serif;
-}
-
-.md-task-list-item>input {
-    margin-left: -1.3em;
-    margin-top: calc(1rem - 12px);
-}
-
-.md-mathjax-midline {
-	background: #fafafa;
-}
-
-.md-fences .code-tooltip {
-	bottom: -2em !important;
-}
-
-.dropdown-menu .divider {
-	border-color: #e5e5e5;
-}
-
- .typora-export p, .typora-export .footnote-line {white-space: normal;} 
-</style>
-</head>
-<body class='typora-export' >
-<div  id='write'  class = 'is-mac'><h1><a name='header-n216' class='md-header-anchor '></a>数据结构——排序</h1><h2><a name='header-n218' class='md-header-anchor '></a>前言</h2><p>本次报告包含：</p><ul><li>测试流程；</li><li>排序算法的思考与比较；</li><li>个人心得；</li><li>源码；</li></ul><h2><a name='header-n229' class='md-header-anchor '></a>测试流程</h2><h4><a name='header-n230' class='md-header-anchor '></a>Intro.</h4><p>对于本次数据结构report，我实现了以下排序：</p><ul><li><strong>insert sort</strong></li><li><strong>binary insert sort</strong></li><li><strong>shell sort</strong></li><li><strong>bubble sort</strong></li><li><strong>quick sort</strong>(non-iterater version)</li><li><strong>select sort</strong></li><li><strong>heap sort</strong></li><li><strong>merge sort</strong></li></ul><blockquote><p>其中除了<code>merge sort</code>我使用了递归，其他均为迭代版本。除了以上排序，我还将其结果和std::sort进行了比较，最后写出了一份测试代码。输出结果（删去了排好后的序列的显示）如下：</p></blockquote><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="c++" style="page-break-inside: unset;"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang="c++"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 4px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;<span class="cm-operator">==&gt;&gt;</span> &nbsp;<span class="cm-operator">&lt;</span><span class="cm-variable">时间校准</span><span class="cm-operator">&gt;</span></span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">程序设计了</span>[<span class="cm-number">1000.00</span>] <span class="cm-variable">ms等待，实际等待</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;<span class="cm-operator">==&gt;&gt;</span>  [<span class="cm-number">1001.39</span>] <span class="cm-variable">ms</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">[<span class="cm-variable">INSERT</span> <span class="cm-variable">SORT</span>]: </span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">for</span> <span class="cm-number">10000</span> <span class="cm-variable">elemets</span>:</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-operator">&gt;&gt;&gt;</span> <span class="cm-variable">time</span> <span class="cm-variable">cost</span>: <span class="cm-number">10.170700ms</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">[<span class="cm-variable">BI_INSERT</span> <span class="cm-variable">SORT</span>]: </span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">for</span> <span class="cm-number">10000</span> <span class="cm-variable">elemets</span>:</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-operator">&gt;&gt;&gt;</span> <span class="cm-variable">time</span> <span class="cm-variable">cost</span>: <span class="cm-number">2.010200ms</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">[<span class="cm-variable">SHELL</span> <span class="cm-variable">SORT</span>]: </span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">for</span> <span class="cm-number">10000</span> <span class="cm-variable">elemets</span>:</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-operator">&gt;&gt;&gt;</span> <span class="cm-variable">time</span> <span class="cm-variable">cost</span>: <span class="cm-number">0.791100ms</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">[<span class="cm-variable">BUBBLE</span> <span class="cm-variable">SORT</span>]: </span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">for</span> <span class="cm-number">10000</span> <span class="cm-variable">elemets</span>:</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-operator">&gt;&gt;&gt;</span> <span class="cm-variable">time</span> <span class="cm-variable">cost</span>: <span class="cm-number">119.200300ms</span></span></pre><div class="" style="position: relative;"><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">[<span class="cm-variable">SELECT</span> <span class="cm-variable">SORT</span>]: </span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">for</span> <span class="cm-number">10000</span> <span class="cm-variable">elemets</span>:</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-operator">&gt;&gt;&gt;</span> <span class="cm-variable">time</span> <span class="cm-variable">cost</span>: <span class="cm-number">22.280500ms</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">[<span class="cm-variable">QUICK</span> <span class="cm-variable">SORT</span>]: </span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">for</span> <span class="cm-number">10000</span> <span class="cm-variable">elemets</span>:</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-operator">&gt;&gt;&gt;</span> <span class="cm-variable">time</span> <span class="cm-variable">cost</span>: <span class="cm-number">0.562500ms</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">[<span class="cm-variable">HEAP</span> <span class="cm-variable">SORT</span>]: </span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">for</span> <span class="cm-number">10000</span> <span class="cm-variable">elemets</span>:</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-operator">&gt;&gt;&gt;</span> <span class="cm-variable">time</span> <span class="cm-variable">cost</span>: <span class="cm-number">0.699400ms</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">[<span class="cm-variable">MERGE</span> <span class="cm-variable">SORT</span>]: </span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">for</span> <span class="cm-number">10000</span> <span class="cm-variable">elemets</span>:</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-operator">&gt;&gt;&gt;</span> <span class="cm-variable">time</span> <span class="cm-variable">cost</span>: <span class="cm-number">4.959400ms</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">[<span class="cm-variable">STD</span> <span class="cm-variable">SORT</span>]: </span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">for</span> <span class="cm-number">10000</span> <span class="cm-variable">elemets</span>:</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-operator">&gt;&gt;&gt;</span> <span class="cm-variable">time</span> <span class="cm-variable">cost</span>: <span class="cm-number">0.442800ms</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">Process</span> <span class="cm-variable">finished</span> <span class="cm-variable">with</span> <span class="cm-variable">exit</span> <span class="cm-variable">code</span> <span class="cm-number">0</span></span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 1092px;"></div><div class="CodeMirror-gutters" style="display: none; height: 1092px;"></div></div></div></pre><h4><a name='header-n252' class='md-header-anchor '></a>测试设计的细节</h4><p>在实现算法后，为了对算法进行测试，我考虑了以下几点：</p><h5><a name='header-n254' class='md-header-anchor '></a>1. 增加单次测试的loop</h5><p>易知，对于一个程序<span class="MathJax_Preview"></span><span class="MathJax_SVG" tabindex="-1" style="font-size: 100%; display: inline-block;"><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="1.702ex" height="2.132ex" viewBox="0 -771.7 733 918" role="img" focusable="false" style="vertical-align: -0.34ex;"><defs><path stroke-width="0" id="E14-MJCAL-50" d="M37 475Q19 475 19 487Q19 536 103 604T327 682Q329 682 344 682T380 682T421 683H463Q625 683 695 615Q718 591 726 564Q733 547 733 525Q733 412 607 312T321 205H312Q293 205 293 217Q293 224 302 236T333 260T385 274Q558 287 614 407Q633 445 633 477Q633 515 612 543T556 585T481 607T399 614H370L368 603Q352 463 312 312T242 82T202 -13Q190 -33 164 -45T121 -57Q108 -57 108 -45Q108 -40 120 -10T151 73T192 190T233 349T266 539Q267 546 269 565T272 598T274 613H270Q209 613 163 588Q131 572 113 518Q102 502 80 490T37 475Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><use xlink:href="#E14-MJCAL-50" x="0" y="0"></use></g></svg></span><script type="math/tex">\mathcal P</script>，其耗时为<span class="MathJax_Preview"></span><span class="MathJax_SVG" tabindex="-1" style="font-size: 100%; display: inline-block;"><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="5.145ex" height="2.691ex" viewBox="0 -819.8 2215 1158.6" role="img" focusable="false" style="vertical-align: -0.787ex;"><defs><path stroke-width="0" id="E26-MJMATHI-54" d="M40 437Q21 437 21 445Q21 450 37 501T71 602L88 651Q93 669 101 677H569H659Q691 677 697 676T704 667Q704 661 687 553T668 444Q668 437 649 437Q640 437 637 437T631 442L629 445Q629 451 635 490T641 551Q641 586 628 604T573 629Q568 630 515 631Q469 631 457 630T439 622Q438 621 368 343T298 60Q298 48 386 46Q418 46 427 45T436 36Q436 31 433 22Q429 4 424 1L422 0Q419 0 415 0Q410 0 363 1T228 2Q99 2 64 0H49Q43 6 43 9T45 27Q49 40 55 46H83H94Q174 46 189 55Q190 56 191 56Q196 59 201 76T241 233Q258 301 269 344Q339 619 339 625Q339 630 310 630H279Q212 630 191 624Q146 614 121 583T67 467Q60 445 57 441T43 437H40Z"></path><path stroke-width="0" id="E26-MJMAIN-28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path><path stroke-width="0" id="E26-MJCAL-50" d="M37 475Q19 475 19 487Q19 536 103 604T327 682Q329 682 344 682T380 682T421 683H463Q625 683 695 615Q718 591 726 564Q733 547 733 525Q733 412 607 312T321 205H312Q293 205 293 217Q293 224 302 236T333 260T385 274Q558 287 614 407Q633 445 633 477Q633 515 612 543T556 585T481 607T399 614H370L368 603Q352 463 312 312T242 82T202 -13Q190 -33 164 -45T121 -57Q108 -57 108 -45Q108 -40 120 -10T151 73T192 190T233 349T266 539Q267 546 269 565T272 598T274 613H270Q209 613 163 588Q131 572 113 518Q102 502 80 490T37 475Z"></path><path stroke-width="0" id="E26-MJMAIN-29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><use xlink:href="#E26-MJMATHI-54" x="0" y="0"></use><use xlink:href="#E26-MJMAIN-28" x="704" y="0"></use><use xlink:href="#E26-MJCAL-50" x="1093" y="0"></use><use xlink:href="#E26-MJMAIN-29" x="1826" y="0"></use></g></svg></span><script type="math/tex">T(\mathcal P)</script>。但在测试的时候，由于程序的启动部分（比如说常数级的函数调用，时钟的设定，比如看我代码中的时间校准部分就可以发现有大概0.1%的时间误差）会让我们最终得到的程序的时间<span class="MathJax_Preview"></span><span class="MathJax_SVG" tabindex="-1" style="font-size: 100%; display: inline-block;"><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="5.368ex" height="2.691ex" viewBox="0 -819.8 2311 1158.6" role="img" focusable="false" style="vertical-align: -0.787ex;"><defs><path stroke-width="0" id="E38-MJMATHI-54" d="M40 437Q21 437 21 445Q21 450 37 501T71 602L88 651Q93 669 101 677H569H659Q691 677 697 676T704 667Q704 661 687 553T668 444Q668 437 649 437Q640 437 637 437T631 442L629 445Q629 451 635 490T641 551Q641 586 628 604T573 629Q568 630 515 631Q469 631 457 630T439 622Q438 621 368 343T298 60Q298 48 386 46Q418 46 427 45T436 36Q436 31 433 22Q429 4 424 1L422 0Q419 0 415 0Q410 0 363 1T228 2Q99 2 64 0H49Q43 6 43 9T45 27Q49 40 55 46H83H94Q174 46 189 55Q190 56 191 56Q196 59 201 76T241 233Q258 301 269 344Q339 619 339 625Q339 630 310 630H279Q212 630 191 624Q146 614 121 583T67 467Q60 445 57 441T43 437H40Z"></path><path stroke-width="0" id="E38-MJMAIN-28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path><path stroke-width="0" id="E38-MJCAL-46" d="M199 579Q181 579 181 590Q181 598 188 611T212 639T260 666T335 682Q336 682 349 682T383 682T431 682T493 683T561 683Q776 682 784 681Q826 673 829 647Q829 620 797 600T744 580Q728 580 728 595Q729 607 713 610Q698 613 598 614H500L499 610Q499 598 467 486T428 367Q428 365 551 365H674Q683 360 684 355Q687 346 677 329Q666 312 642 299T598 285Q586 285 582 296H402L394 277Q386 258 373 229T346 167T315 102T286 51Q265 22 225 -5T133 -32Q108 -32 87 -25T54 -7T33 15T21 35T18 47Q18 60 44 80T98 103Q108 103 111 101T119 88Q130 66 150 54T179 39T195 37Q199 37 203 43Q217 67 245 125T318 300T391 532Q393 543 398 564T406 598T409 613T339 614H269Q229 579 199 579Z"></path><path stroke-width="0" id="E38-MJMAIN-29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><use xlink:href="#E38-MJMATHI-54" x="0" y="0"></use><use xlink:href="#E38-MJMAIN-28" x="704" y="0"></use><use xlink:href="#E38-MJCAL-46" x="1093" y="0"></use><use xlink:href="#E38-MJMAIN-29" x="1922" y="0"></use></g></svg></span><script type="math/tex">T(\mathcal F)</script>加上一些常数时间b即：</p><p class='md-math-block'><div contenteditable="false" spellcheck="false" class="mathjax-block md-end-block md-math-block md-rawblock" id="mathjax-n256" cid="n256" mdtype="math_block">
-			
-		<div class="md-rawblock-container md-math-container" tabindex="-1"><span class="md-math-source"><span class="MathJax_Preview"></span><span class="MathJax_SVG_Display" style="text-align: center;"><span class="MathJax_SVG" id="MathJax-Element-114-Frame" tabindex="-1" style="font-size: 100%; display: inline-block;"><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="18.026ex" height="2.691ex" viewBox="0 -819.8 7761 1158.6" role="img" focusable="false" style="vertical-align: -0.787ex;"><defs><path stroke-width="0" id="E155-MJMATHI-54" d="M40 437Q21 437 21 445Q21 450 37 501T71 602L88 651Q93 669 101 677H569H659Q691 677 697 676T704 667Q704 661 687 553T668 444Q668 437 649 437Q640 437 637 437T631 442L629 445Q629 451 635 490T641 551Q641 586 628 604T573 629Q568 630 515 631Q469 631 457 630T439 622Q438 621 368 343T298 60Q298 48 386 46Q418 46 427 45T436 36Q436 31 433 22Q429 4 424 1L422 0Q419 0 415 0Q410 0 363 1T228 2Q99 2 64 0H49Q43 6 43 9T45 27Q49 40 55 46H83H94Q174 46 189 55Q190 56 191 56Q196 59 201 76T241 233Q258 301 269 344Q339 619 339 625Q339 630 310 630H279Q212 630 191 624Q146 614 121 583T67 467Q60 445 57 441T43 437H40Z"></path><path stroke-width="0" id="E155-MJMAIN-28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path><path stroke-width="0" id="E155-MJCAL-46" d="M199 579Q181 579 181 590Q181 598 188 611T212 639T260 666T335 682Q336 682 349 682T383 682T431 682T493 683T561 683Q776 682 784 681Q826 673 829 647Q829 620 797 600T744 580Q728 580 728 595Q729 607 713 610Q698 613 598 614H500L499 610Q499 598 467 486T428 367Q428 365 551 365H674Q683 360 684 355Q687 346 677 329Q666 312 642 299T598 285Q586 285 582 296H402L394 277Q386 258 373 229T346 167T315 102T286 51Q265 22 225 -5T133 -32Q108 -32 87 -25T54 -7T33 15T21 35T18 47Q18 60 44 80T98 103Q108 103 111 101T119 88Q130 66 150 54T179 39T195 37Q199 37 203 43Q217 67 245 125T318 300T391 532Q393 543 398 564T406 598T409 613T339 614H269Q229 579 199 579Z"></path><path stroke-width="0" id="E155-MJMAIN-29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path><path stroke-width="0" id="E155-MJMAIN-3D" d="M56 347Q56 360 70 367H707Q722 359 722 347Q722 336 708 328L390 327H72Q56 332 56 347ZM56 153Q56 168 72 173H708Q722 163 722 153Q722 140 707 133H70Q56 140 56 153Z"></path><path stroke-width="0" id="E155-MJCAL-50" d="M37 475Q19 475 19 487Q19 536 103 604T327 682Q329 682 344 682T380 682T421 683H463Q625 683 695 615Q718 591 726 564Q733 547 733 525Q733 412 607 312T321 205H312Q293 205 293 217Q293 224 302 236T333 260T385 274Q558 287 614 407Q633 445 633 477Q633 515 612 543T556 585T481 607T399 614H370L368 603Q352 463 312 312T242 82T202 -13Q190 -33 164 -45T121 -57Q108 -57 108 -45Q108 -40 120 -10T151 73T192 190T233 349T266 539Q267 546 269 565T272 598T274 613H270Q209 613 163 588Q131 572 113 518Q102 502 80 490T37 475Z"></path><path stroke-width="0" id="E155-MJMAIN-2B" d="M56 237T56 250T70 270H369V420L370 570Q380 583 389 583Q402 583 409 568V270H707Q722 262 722 250T707 230H409V-68Q401 -82 391 -82H389H387Q375 -82 369 -68V230H70Q56 237 56 250Z"></path><path stroke-width="0" id="E155-MJMATHI-62" d="M73 647Q73 657 77 670T89 683Q90 683 161 688T234 694Q246 694 246 685T212 542Q204 508 195 472T180 418L176 399Q176 396 182 402Q231 442 283 442Q345 442 383 396T422 280Q422 169 343 79T173 -11Q123 -11 82 27T40 150V159Q40 180 48 217T97 414Q147 611 147 623T109 637Q104 637 101 637H96Q86 637 83 637T76 640T73 647ZM336 325V331Q336 405 275 405Q258 405 240 397T207 376T181 352T163 330L157 322L136 236Q114 150 114 114Q114 66 138 42Q154 26 178 26Q211 26 245 58Q270 81 285 114T318 219Q336 291 336 325Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><use xlink:href="#E155-MJMATHI-54" x="0" y="0"></use><use xlink:href="#E155-MJMAIN-28" x="704" y="0"></use><use xlink:href="#E155-MJCAL-46" x="1093" y="0"></use><use xlink:href="#E155-MJMAIN-29" x="1922" y="0"></use><use xlink:href="#E155-MJMAIN-3D" x="2588" y="0"></use><use xlink:href="#E155-MJMATHI-54" x="3644" y="0"></use><use xlink:href="#E155-MJMAIN-28" x="4348" y="0"></use><use xlink:href="#E155-MJCAL-50" x="4737" y="0"></use><use xlink:href="#E155-MJMAIN-29" x="5470" y="0"></use><use xlink:href="#E155-MJMAIN-2B" x="6081" y="0"></use><use xlink:href="#E155-MJMATHI-62" x="7082" y="0"></use></g></svg></span></span><script type="math/tex; mode=display" id="MathJax-Element-114">  T(\mathcal F) = T(\mathcal P)+b\ </script></span></div></div></p><p>我们想得到的是<span class="MathJax_Preview"></span><span class="MathJax_SVG" tabindex="-1" style="font-size: 100%; display: inline-block;"><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="5.145ex" height="2.691ex" viewBox="0 -819.8 2215 1158.6" role="img" focusable="false" style="vertical-align: -0.787ex;"><defs><path stroke-width="0" id="E26-MJMATHI-54" d="M40 437Q21 437 21 445Q21 450 37 501T71 602L88 651Q93 669 101 677H569H659Q691 677 697 676T704 667Q704 661 687 553T668 444Q668 437 649 437Q640 437 637 437T631 442L629 445Q629 451 635 490T641 551Q641 586 628 604T573 629Q568 630 515 631Q469 631 457 630T439 622Q438 621 368 343T298 60Q298 48 386 46Q418 46 427 45T436 36Q436 31 433 22Q429 4 424 1L422 0Q419 0 415 0Q410 0 363 1T228 2Q99 2 64 0H49Q43 6 43 9T45 27Q49 40 55 46H83H94Q174 46 189 55Q190 56 191 56Q196 59 201 76T241 233Q258 301 269 344Q339 619 339 625Q339 630 310 630H279Q212 630 191 624Q146 614 121 583T67 467Q60 445 57 441T43 437H40Z"></path><path stroke-width="0" id="E26-MJMAIN-28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path><path stroke-width="0" id="E26-MJCAL-50" d="M37 475Q19 475 19 487Q19 536 103 604T327 682Q329 682 344 682T380 682T421 683H463Q625 683 695 615Q718 591 726 564Q733 547 733 525Q733 412 607 312T321 205H312Q293 205 293 217Q293 224 302 236T333 260T385 274Q558 287 614 407Q633 445 633 477Q633 515 612 543T556 585T481 607T399 614H370L368 603Q352 463 312 312T242 82T202 -13Q190 -33 164 -45T121 -57Q108 -57 108 -45Q108 -40 120 -10T151 73T192 190T233 349T266 539Q267 546 269 565T272 598T274 613H270Q209 613 163 588Q131 572 113 518Q102 502 80 490T37 475Z"></path><path stroke-width="0" id="E26-MJMAIN-29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><use xlink:href="#E26-MJMATHI-54" x="0" y="0"></use><use xlink:href="#E26-MJMAIN-28" x="704" y="0"></use><use xlink:href="#E26-MJCAL-50" x="1093" y="0"></use><use xlink:href="#E26-MJMAIN-29" x="1826" y="0"></use></g></svg></span><script type="math/tex">T(\mathcal P)</script> ，但最终得到的是<span class="MathJax_Preview"></span><span class="MathJax_SVG" tabindex="-1" style="font-size: 100%; display: inline-block;"><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="5.368ex" height="2.691ex" viewBox="0 -819.8 2311 1158.6" role="img" focusable="false" style="vertical-align: -0.787ex;"><defs><path stroke-width="0" id="E38-MJMATHI-54" d="M40 437Q21 437 21 445Q21 450 37 501T71 602L88 651Q93 669 101 677H569H659Q691 677 697 676T704 667Q704 661 687 553T668 444Q668 437 649 437Q640 437 637 437T631 442L629 445Q629 451 635 490T641 551Q641 586 628 604T573 629Q568 630 515 631Q469 631 457 630T439 622Q438 621 368 343T298 60Q298 48 386 46Q418 46 427 45T436 36Q436 31 433 22Q429 4 424 1L422 0Q419 0 415 0Q410 0 363 1T228 2Q99 2 64 0H49Q43 6 43 9T45 27Q49 40 55 46H83H94Q174 46 189 55Q190 56 191 56Q196 59 201 76T241 233Q258 301 269 344Q339 619 339 625Q339 630 310 630H279Q212 630 191 624Q146 614 121 583T67 467Q60 445 57 441T43 437H40Z"></path><path stroke-width="0" id="E38-MJMAIN-28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path><path stroke-width="0" id="E38-MJCAL-46" d="M199 579Q181 579 181 590Q181 598 188 611T212 639T260 666T335 682Q336 682 349 682T383 682T431 682T493 683T561 683Q776 682 784 681Q826 673 829 647Q829 620 797 600T744 580Q728 580 728 595Q729 607 713 610Q698 613 598 614H500L499 610Q499 598 467 486T428 367Q428 365 551 365H674Q683 360 684 355Q687 346 677 329Q666 312 642 299T598 285Q586 285 582 296H402L394 277Q386 258 373 229T346 167T315 102T286 51Q265 22 225 -5T133 -32Q108 -32 87 -25T54 -7T33 15T21 35T18 47Q18 60 44 80T98 103Q108 103 111 101T119 88Q130 66 150 54T179 39T195 37Q199 37 203 43Q217 67 245 125T318 300T391 532Q393 543 398 564T406 598T409 613T339 614H269Q229 579 199 579Z"></path><path stroke-width="0" id="E38-MJMAIN-29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><use xlink:href="#E38-MJMATHI-54" x="0" y="0"></use><use xlink:href="#E38-MJMAIN-28" x="704" y="0"></use><use xlink:href="#E38-MJCAL-46" x="1093" y="0"></use><use xlink:href="#E38-MJMAIN-29" x="1922" y="0"></use></g></svg></span><script type="math/tex">T(\mathcal F)</script>，如何让两者尽量相等呢？这里我们可以通过增加内部循环次数来进行计算：</p><p class='md-math-block'><div contenteditable="false" spellcheck="false" class="mathjax-block md-end-block md-math-block md-rawblock" id="mathjax-n258" cid="n258" mdtype="math_block">
-			
-		<div class="md-rawblock-container md-math-container" tabindex="-1"><span class="md-math-source"><span class="MathJax_Preview"></span><span class="MathJax_SVG_Display" style="text-align: center;"><span class="MathJax_SVG" id="MathJax-Element-115-Frame" tabindex="-1" style="font-size: 100%; display: inline-block;"><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="35.909ex" height="5.484ex" viewBox="0 -1541.4 15460.8 2361.2" role="img" focusable="false" style="vertical-align: -1.904ex;"><defs><path stroke-width="0" id="E156-MJMATHI-54" d="M40 437Q21 437 21 445Q21 450 37 501T71 602L88 651Q93 669 101 677H569H659Q691 677 697 676T704 667Q704 661 687 553T668 444Q668 437 649 437Q640 437 637 437T631 442L629 445Q629 451 635 490T641 551Q641 586 628 604T573 629Q568 630 515 631Q469 631 457 630T439 622Q438 621 368 343T298 60Q298 48 386 46Q418 46 427 45T436 36Q436 31 433 22Q429 4 424 1L422 0Q419 0 415 0Q410 0 363 1T228 2Q99 2 64 0H49Q43 6 43 9T45 27Q49 40 55 46H83H94Q174 46 189 55Q190 56 191 56Q196 59 201 76T241 233Q258 301 269 344Q339 619 339 625Q339 630 310 630H279Q212 630 191 624Q146 614 121 583T67 467Q60 445 57 441T43 437H40Z"></path><path stroke-width="0" id="E156-MJMAIN-28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path><path stroke-width="0" id="E156-MJCAL-46" d="M199 579Q181 579 181 590Q181 598 188 611T212 639T260 666T335 682Q336 682 349 682T383 682T431 682T493 683T561 683Q776 682 784 681Q826 673 829 647Q829 620 797 600T744 580Q728 580 728 595Q729 607 713 610Q698 613 598 614H500L499 610Q499 598 467 486T428 367Q428 365 551 365H674Q683 360 684 355Q687 346 677 329Q666 312 642 299T598 285Q586 285 582 296H402L394 277Q386 258 373 229T346 167T315 102T286 51Q265 22 225 -5T133 -32Q108 -32 87 -25T54 -7T33 15T21 35T18 47Q18 60 44 80T98 103Q108 103 111 101T119 88Q130 66 150 54T179 39T195 37Q199 37 203 43Q217 67 245 125T318 300T391 532Q393 543 398 564T406 598T409 613T339 614H269Q229 579 199 579Z"></path><path stroke-width="0" id="E156-MJMAIN-29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path><path stroke-width="0" id="E156-MJMAIN-3D" d="M56 347Q56 360 70 367H707Q722 359 722 347Q722 336 708 328L390 327H72Q56 332 56 347ZM56 153Q56 168 72 173H708Q722 163 722 153Q722 140 707 133H70Q56 140 56 153Z"></path><path stroke-width="0" id="E156-MJMAIN-6C" d="M42 46H56Q95 46 103 60V68Q103 77 103 91T103 124T104 167T104 217T104 272T104 329Q104 366 104 407T104 482T104 542T103 586T103 603Q100 622 89 628T44 637H26V660Q26 683 28 683L38 684Q48 685 67 686T104 688Q121 689 141 690T171 693T182 694H185V379Q185 62 186 60Q190 52 198 49Q219 46 247 46H263V0H255L232 1Q209 2 183 2T145 3T107 3T57 1L34 0H26V46H42Z"></path><path stroke-width="0" id="E156-MJMAIN-69" d="M69 609Q69 637 87 653T131 669Q154 667 171 652T188 609Q188 579 171 564T129 549Q104 549 87 564T69 609ZM247 0Q232 3 143 3Q132 3 106 3T56 1L34 0H26V46H42Q70 46 91 49Q100 53 102 60T104 102V205V293Q104 345 102 359T88 378Q74 385 41 385H30V408Q30 431 32 431L42 432Q52 433 70 434T106 436Q123 437 142 438T171 441T182 442H185V62Q190 52 197 50T232 46H255V0H247Z"></path><path stroke-width="0" id="E156-MJMAIN-6D" d="M41 46H55Q94 46 102 60V68Q102 77 102 91T102 122T103 161T103 203Q103 234 103 269T102 328V351Q99 370 88 376T43 385H25V408Q25 431 27 431L37 432Q47 433 65 434T102 436Q119 437 138 438T167 441T178 442H181V402Q181 364 182 364T187 369T199 384T218 402T247 421T285 437Q305 442 336 442Q351 442 364 440T387 434T406 426T421 417T432 406T441 395T448 384T452 374T455 366L457 361L460 365Q463 369 466 373T475 384T488 397T503 410T523 422T546 432T572 439T603 442Q729 442 740 329Q741 322 741 190V104Q741 66 743 59T754 49Q775 46 803 46H819V0H811L788 1Q764 2 737 2T699 3Q596 3 587 0H579V46H595Q656 46 656 62Q657 64 657 200Q656 335 655 343Q649 371 635 385T611 402T585 404Q540 404 506 370Q479 343 472 315T464 232V168V108Q464 78 465 68T468 55T477 49Q498 46 526 46H542V0H534L510 1Q487 2 460 2T422 3Q319 3 310 0H302V46H318Q379 46 379 62Q380 64 380 200Q379 335 378 343Q372 371 358 385T334 402T308 404Q263 404 229 370Q202 343 195 315T187 232V168V108Q187 78 188 68T191 55T200 49Q221 46 249 46H265V0H257L234 1Q210 2 183 2T145 3Q42 3 33 0H25V46H41Z"></path><path stroke-width="0" id="E156-MJMATHI-4E" d="M234 637Q231 637 226 637Q201 637 196 638T191 649Q191 676 202 682Q204 683 299 683Q376 683 387 683T401 677Q612 181 616 168L670 381Q723 592 723 606Q723 633 659 637Q635 637 635 648Q635 650 637 660Q641 676 643 679T653 683Q656 683 684 682T767 680Q817 680 843 681T873 682Q888 682 888 672Q888 650 880 642Q878 637 858 637Q787 633 769 597L620 7Q618 0 599 0Q585 0 582 2Q579 5 453 305L326 604L261 344Q196 88 196 79Q201 46 268 46H278Q284 41 284 38T282 19Q278 6 272 0H259Q228 2 151 2Q123 2 100 2T63 2T46 1Q31 1 31 10Q31 14 34 26T39 40Q41 46 62 46Q130 49 150 85Q154 91 221 362L289 634Q287 635 234 637Z"></path><path stroke-width="0" id="E156-MJMAIN-2192" d="M56 237T56 250T70 270H835Q719 357 692 493Q692 494 692 496T691 499Q691 511 708 511H711Q720 511 723 510T729 506T732 497T735 481T743 456Q765 389 816 336T935 261Q944 258 944 250Q944 244 939 241T915 231T877 212Q836 186 806 152T761 85T740 35T732 4Q730 -6 727 -8T711 -11Q691 -11 691 0Q691 7 696 25Q728 151 835 230H70Q56 237 56 250Z"></path><path stroke-width="0" id="E156-MJMAIN-221E" d="M55 217Q55 305 111 373T254 442Q342 442 419 381Q457 350 493 303L507 284L514 294Q618 442 747 442Q833 442 888 374T944 214Q944 128 889 59T743 -11Q657 -11 580 50Q542 81 506 128L492 147L485 137Q381 -11 252 -11Q166 -11 111 57T55 217ZM907 217Q907 285 869 341T761 397Q740 397 720 392T682 378T648 359T619 335T594 310T574 285T559 263T548 246L543 238L574 198Q605 158 622 138T664 94T714 61T765 51Q827 51 867 100T907 217ZM92 214Q92 145 131 89T239 33Q357 33 456 193L425 233Q364 312 334 337Q285 380 233 380Q171 380 132 331T92 214Z"></path><path stroke-width="0" id="E156-MJCAL-50" d="M37 475Q19 475 19 487Q19 536 103 604T327 682Q329 682 344 682T380 682T421 683H463Q625 683 695 615Q718 591 726 564Q733 547 733 525Q733 412 607 312T321 205H312Q293 205 293 217Q293 224 302 236T333 260T385 274Q558 287 614 407Q633 445 633 477Q633 515 612 543T556 585T481 607T399 614H370L368 603Q352 463 312 312T242 82T202 -13Q190 -33 164 -45T121 -57Q108 -57 108 -45Q108 -40 120 -10T151 73T192 190T233 349T266 539Q267 546 269 565T272 598T274 613H270Q209 613 163 588Q131 572 113 518Q102 502 80 490T37 475Z"></path><path stroke-width="0" id="E156-MJMAIN-2217" d="M229 286Q216 420 216 436Q216 454 240 464Q241 464 245 464T251 465Q263 464 273 456T283 436Q283 419 277 356T270 286L328 328Q384 369 389 372T399 375Q412 375 423 365T435 338Q435 325 425 315Q420 312 357 282T289 250L355 219L425 184Q434 175 434 161Q434 146 425 136T401 125Q393 125 383 131T328 171L270 213Q283 79 283 63Q283 53 276 44T250 35Q231 35 224 44T216 63Q216 80 222 143T229 213L171 171Q115 130 110 127Q106 124 100 124Q87 124 76 134T64 161Q64 166 64 169T67 175T72 181T81 188T94 195T113 204T138 215T170 230T210 250L74 315Q65 324 65 338Q65 353 74 363T98 374Q106 374 116 368T171 328L229 286Z"></path><path stroke-width="0" id="E156-MJMAIN-2B" d="M56 237T56 250T70 270H369V420L370 570Q380 583 389 583Q402 583 409 568V270H707Q722 262 722 250T707 230H409V-68Q401 -82 391 -82H389H387Q375 -82 369 -68V230H70Q56 237 56 250Z"></path><path stroke-width="0" id="E156-MJMATHI-62" d="M73 647Q73 657 77 670T89 683Q90 683 161 688T234 694Q246 694 246 685T212 542Q204 508 195 472T180 418L176 399Q176 396 182 402Q231 442 283 442Q345 442 383 396T422 280Q422 169 343 79T173 -11Q123 -11 82 27T40 150V159Q40 180 48 217T97 414Q147 611 147 623T109 637Q104 637 101 637H96Q86 637 83 637T76 640T73 647ZM336 325V331Q336 405 275 405Q258 405 240 397T207 376T181 352T163 330L157 322L136 236Q114 150 114 114Q114 66 138 42Q154 26 178 26Q211 26 245 58Q270 81 285 114T318 219Q336 291 336 325Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><use xlink:href="#E156-MJMATHI-54" x="0" y="0"></use><use xlink:href="#E156-MJMAIN-28" x="704" y="0"></use><use xlink:href="#E156-MJCAL-46" x="1093" y="0"></use><use xlink:href="#E156-MJMAIN-29" x="1922" y="0"></use><use xlink:href="#E156-MJMAIN-3D" x="2588" y="0"></use><g transform="translate(3644,0)"><g transform="translate(326,0)"><use xlink:href="#E156-MJMAIN-6C"></use><use xlink:href="#E156-MJMAIN-69" x="278" y="0"></use><use xlink:href="#E156-MJMAIN-6D" x="556" y="0"></use></g><g transform="translate(0,-650)"><use transform="scale(0.707)" xlink:href="#E156-MJMATHI-4E" x="0" y="0"></use><use transform="scale(0.707)" xlink:href="#E156-MJMAIN-2192" x="888" y="0"></use><use transform="scale(0.707)" xlink:href="#E156-MJMAIN-221E" x="1888" y="0"></use></g></g><g transform="translate(5686,0)"><g transform="translate(286,0)"><rect stroke="none" width="5818" height="60" x="0" y="220"></rect><g transform="translate(60,710)"><use xlink:href="#E156-MJMATHI-54" x="0" y="0"></use><use xlink:href="#E156-MJMAIN-28" x="704" y="0"></use><use xlink:href="#E156-MJCAL-50" x="1093" y="0"></use><use xlink:href="#E156-MJMAIN-29" x="1826" y="0"></use><use xlink:href="#E156-MJMAIN-2217" x="2437" y="0"></use><use xlink:href="#E156-MJMATHI-4E" x="3159" y="0"></use><use xlink:href="#E156-MJMAIN-2B" x="4269" y="0"></use><use xlink:href="#E156-MJMATHI-62" x="5269" y="0"></use></g><use xlink:href="#E156-MJMATHI-4E" x="2465" y="-686"></use></g></g><use xlink:href="#E156-MJMAIN-3D" x="12190" y="0"></use><use xlink:href="#E156-MJMATHI-54" x="13245" y="0"></use><use xlink:href="#E156-MJMAIN-28" x="13949" y="0"></use><use xlink:href="#E156-MJCAL-50" x="14338" y="0"></use><use xlink:href="#E156-MJMAIN-29" x="15071" y="0"></use></g></svg></span></span><script type="math/tex; mode=display" id="MathJax-Element-115">T(\mathcal F) = \lim_{N\to \infin}\frac{T(\mathcal P)*N+b}{N}=T(\mathcal P)</script></span></div></div></p><p>在我的程序中，限于自己的电脑的算力，我将N(对应程序中的<code>LOOP_SIZE</code>)设置为100。</p><h5><a name='header-n260' class='md-header-anchor '></a>2. 使用<code>chrono::steady_clock</code></h5><p>steady_clock的优点：</p><ul><li>时间精度高；</li><li>稳；</li></ul><p>&nbsp;</p><h2><a name='header-n268' class='md-header-anchor '></a>排序算法的思考与比较</h2><h4><a name='header-n269' class='md-header-anchor '></a>ranking</h4><p>就“测试流程”处展示的测试结果而言，对我使用的算法进行时间升序排名可得：</p><ul><li><code>std::sort</code></li><li><code>quick_sort</code></li><li><code>heap_sort</code></li><li><code>shell_sort</code></li><li><code>binary_insert_sort</code></li><li><code>merge_sort</code></li><li><code>insert_sort</code></li><li><code>select_sort</code></li><li><code>bubble_sort</code></li></ul><h4><a name='header-n290' class='md-header-anchor '></a>复杂度分析</h4><blockquote><p>下面讨论的都是大O标记的最坏情况的复杂度。</p></blockquote><ul><li><code>std::sort</code></li></ul><blockquote><p>O(N logN)</p></blockquote><ul><li><code>quick_sort</code></li></ul><blockquote><p>O(N logN)</p></blockquote><ul><li><code>heap_sort</code></li></ul><blockquote><p>O(N logN)</p></blockquote><ul><li><code>shell_sort</code></li></ul><blockquote><p>It depends on how we define the gap.</p><p>而本次代码中我使用的序列来自：</p><blockquote><p> Pratt, V. Shellsort and sorting networks (Outstanding dissertations in the computer sciences). Garland. 1979. <a href='https://zh.wikipedia.org/wiki/Special:%E7%BD%91%E7%BB%9C%E4%B9%A6%E6%BA%90/0-824-04406-1'>ISBN 0-824-04406-1</a>. (This was originally presented as the author&#39;s Ph.D. thesis, Stanford University, 1971)</p></blockquote><p><img src='https://s1.ax1x.com/2018/12/27/FRE1p9.png' alt='img' referrerPolicy='no-referrer' /></p><blockquote><p> source from <a href='https://zh.wikipedia.org/wiki/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F'>wiki</a>.</p></blockquote></blockquote><ul><li><code>binary_insert_sort</code></li></ul><blockquote><p>O(N)</p></blockquote><ul><li><code>merge_sort</code></li></ul><blockquote><p>O(N logN)</p></blockquote><ul><li><code>insert_sort</code></li></ul><blockquote><p>O(N)</p></blockquote><ul><li><code>select_sort</code></li></ul><blockquote><p>O(N)</p></blockquote><ul><li><code>bubble_sort</code></li></ul><blockquote><p>O(N)</p></blockquote><h4><a name='header-n402' class='md-header-anchor '></a>一些关于快与慢的原因</h4><h4><a name='header-n413' class='md-header-anchor '></a>std::sort</h4><p>作为state-of-art的<code>std::sort</code>，首先对在数据规模大的时候，使用了快排，而且对于快排中的<code>partition</code>（即每次分界的那个数），快排使用了精心设计的随机数，随机设置partition的位置。这就比一般人只取头尾要简单。当快排得差不多了（某种程度的整体有序），这个时候就换插入排序了，对于基本有序的序列，插排的效率会很高。而且插排本身就存在一个常数小的优势，如果依然对几乎有序的序列使用快排，反而更加容易导致排序效率低下。除此之外，因为<code>std::sort</code>是编译器方的专业人员书写的，从代码本身到编译器对该算法的优化，都是为了加快整个排序流程，这也是为什么<code>std::sort</code>如此之快且稳定的原因。</p><h4><a name='header-n415' class='md-header-anchor '></a>merge sort</h4><p>归并排序的复杂度低，但是常数较大，每次都存在大量的数组赋值操作，所以比较慢。</p><h4><a name='header-n419' class='md-header-anchor '></a>bubble sort</h4><p>不管是比较次数还是位置切换次数都稳定在<span class="MathJax_Preview"></span><span class="MathJax_SVG" tabindex="-1" style="font-size: 100%; display: inline-block;"><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="2.447ex" height="2.356ex" viewBox="0 -916 1053.6 1014.2" role="img" focusable="false" style="vertical-align: -0.228ex;"><defs><path stroke-width="0" id="E161-MJMATHI-6E" d="M21 287Q22 293 24 303T36 341T56 388T89 425T135 442Q171 442 195 424T225 390T231 369Q231 367 232 367L243 378Q304 442 382 442Q436 442 469 415T503 336T465 179T427 52Q427 26 444 26Q450 26 453 27Q482 32 505 65T540 145Q542 153 560 153Q580 153 580 145Q580 144 576 130Q568 101 554 73T508 17T439 -10Q392 -10 371 17T350 73Q350 92 386 193T423 345Q423 404 379 404H374Q288 404 229 303L222 291L189 157Q156 26 151 16Q138 -11 108 -11Q95 -11 87 -5T76 7T74 17Q74 30 112 180T152 343Q153 348 153 366Q153 405 129 405Q91 405 66 305Q60 285 60 284Q58 278 41 278H27Q21 284 21 287Z"></path><path stroke-width="0" id="E161-MJMAIN-32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><use xlink:href="#E161-MJMATHI-6E" x="0" y="0"></use><use transform="scale(0.707)" xlink:href="#E161-MJMAIN-32" x="848" y="513"></use></g></svg></span><script type="math/tex">n^2</script>…所以能不慢吗...</p><p>&nbsp;</p><h2><a name='header-n424' class='md-header-anchor '></a>心得体会</h2><p>排序算法要考虑2个因素：</p><ul><li>比较次数；</li><li>位置变动次数；</li></ul><p>从算法设计层面优化代码有下面这些points：</p><ul><li>分治；</li><li>排序算法的组合；</li></ul><p>从编程角度：</p><ul><li>对于连续迁移的元素，不要一个一个swap（3次操作），而是全都往后推一位，再把多的一位放前头（1次操作）。（详情请见我写的<code>insert_sort</code>）</li><li>尽量用迭代的方法来书写，便于代码的优化，减少函数调用的时间。</li></ul><h2><a name='header-n311' class='md-header-anchor '></a>源码</h2><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="c++" style="page-break-inside: unset;"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang="c++"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 4px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-meta">#include &lt;iostream&gt;</span></span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-meta">#include &lt;array&gt;</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-meta">#include &lt;stack&gt;</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-meta">#include &lt;vector&gt;</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-meta">#include &lt;limits&gt;</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-meta">#include &lt;random&gt;</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-meta">#include &lt;algorithm&gt;</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-meta">#include &lt;thread&gt;</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-meta">#include &lt;iomanip&gt;</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-meta">#include &lt;chrono&gt;</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">/* Written by ganler. Use this code to feel the pipelines of diverse sorts. */</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">// 分别测试：插入排序√，折半插入排序√，希尔排序√，冒泡排序√，快速排序√，选择排序√，归并排序√，堆排序√</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">// 以及最强排序 STL 排序</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">// 随机数范围[0, 1000 000]</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">// 随机数个数10 000个</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">// 测试次数50次（减少常数的影响）</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">constexpr</span> <span class="cm-variable">uint32_t</span> <span class="cm-variable">TEST_SIZE</span> <span class="cm-operator">=</span> <span class="cm-number">10000</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">constexpr</span> <span class="cm-variable">uint32_t</span> <span class="cm-variable">LOOP_SIZE</span> <span class="cm-operator">=</span> <span class="cm-number">10</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">constexpr</span> <span class="cm-variable">uint32_t</span> <span class="cm-variable">PRECISION</span> <span class="cm-operator">=</span> <span class="cm-number">6</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">constexpr</span> <span class="cm-variable">uint32_t</span> <span class="cm-variable">SHELL_FACTOR</span> <span class="cm-operator">=</span> <span class="cm-number">3</span>; <span class="cm-comment">// For guys who want use a gap function with $n/SHELL_FACTOR^i$</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">using</span> <span class="cm-keyword">namespace</span> <span class="cm-def">std</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable-3">void</span> <span class="cm-def">time_test</span>()</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">{</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">start</span> <span class="cm-operator">=</span> <span class="cm-variable">chrono::steady_clock::now</span>();</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">this_thread::sleep_for</span>(<span class="cm-variable">std::chrono::milliseconds</span>(<span class="cm-number">1000</span>));</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">end</span> <span class="cm-operator">=</span> <span class="cm-variable">chrono::steady_clock::now</span>();</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">diff</span> <span class="cm-operator">=</span> <span class="cm-variable">end</span><span class="cm-operator">-</span><span class="cm-variable">start</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">cout</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"  ==&gt;&gt;  &lt;时间校准&gt;"</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">cout</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"程序设计了[1000.00] ms等待，实际等待"</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"  ==&gt;&gt;  ["</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">chrono::duration</span><span class="cm-operator">&lt;</span><span class="cm-variable-3">double</span>, <span class="cm-variable">milli</span><span class="cm-operator">&gt;</span>(<span class="cm-variable">diff</span>).<span class="cm-variable">count</span>() <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"] ms"</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">}</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable-3">void</span> <span class="cm-def">print</span>(<span class="cm-keyword">const</span> <span class="cm-variable">array</span><span class="cm-operator">&lt;</span><span class="cm-variable-3">int</span>, <span class="cm-variable">TEST_SIZE</span><span class="cm-operator">&gt;&amp;</span> <span class="cm-variable">arr</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">{</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">for</span>(<span class="cm-keyword">const</span> <span class="cm-keyword">auto</span><span class="cm-operator">&amp;</span> <span class="cm-variable">x</span> : <span class="cm-variable">arr</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">cout</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">x</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">' '</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">cout</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">}</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable-3">void</span> <span class="cm-def">insert_sort</span>(<span class="cm-keyword">const</span> <span class="cm-variable">array</span><span class="cm-operator">&lt;</span><span class="cm-variable-3">int</span>, <span class="cm-variable">TEST_SIZE</span><span class="cm-operator">&gt;&amp;</span> <span class="cm-variable">data_</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">{</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">start</span> <span class="cm-operator">=</span> <span class="cm-variable">chrono::steady_clock::now</span>();</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">data</span> <span class="cm-operator">=</span> <span class="cm-variable">data_</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">for</span> (<span class="cm-variable-3">int</span> <span class="cm-variable">i</span> <span class="cm-operator">=</span> <span class="cm-number">0</span>; <span class="cm-variable">i</span> <span class="cm-operator">&lt;</span> <span class="cm-variable">LOOP_SIZE</span>; <span class="cm-operator">++</span><span class="cm-variable">i</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">data</span> <span class="cm-operator">=</span> <span class="cm-variable">data_</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">for</span> (<span class="cm-variable-3">int</span> <span class="cm-variable">j</span> <span class="cm-operator">=</span> <span class="cm-number">1</span>; <span class="cm-variable">j</span> <span class="cm-operator">&lt;</span> <span class="cm-variable">TEST_SIZE</span>; <span class="cm-operator">++</span><span class="cm-variable">j</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">tmp</span> <span class="cm-operator">=</span> <span class="cm-variable">data</span>[<span class="cm-variable">j</span>];</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable-3">int</span> <span class="cm-variable">k</span> <span class="cm-operator">=</span> <span class="cm-variable">j</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">for</span> (; <span class="cm-variable">k</span> <span class="cm-operator">&gt;</span> <span class="cm-number">0</span> <span class="cm-operator">&amp;&amp;</span> <span class="cm-variable">data</span>[<span class="cm-variable">k</span> <span class="cm-operator">-</span> <span class="cm-number">1</span>] <span class="cm-operator">&gt;</span> <span class="cm-variable">tmp</span>; <span class="cm-operator">--</span><span class="cm-variable">k</span>) <span class="cm-comment">// Must be "data[k-1] &gt; tmp" not "data[k-1] &gt; data[k]"</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">data</span>[<span class="cm-variable">k</span>] <span class="cm-operator">=</span> <span class="cm-variable">data</span>[<span class="cm-variable">k</span> <span class="cm-operator">-</span> <span class="cm-number">1</span>]; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-comment">// "data[k-1] &gt; data[k]" is used in constant swap operation.</span></span></pre><div class="" style="position: relative;"><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">data</span>[<span class="cm-variable">k</span>] <span class="cm-operator">=</span> <span class="cm-variable">tmp</span>;</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">end</span> <span class="cm-operator">=</span> <span class="cm-variable">chrono::steady_clock::now</span>();</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">diff</span> <span class="cm-operator">=</span> (<span class="cm-variable">end</span><span class="cm-operator">-</span><span class="cm-variable">start</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">cout</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"[INSERT SORT]: "</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"for "</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">TEST_SIZE</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">" elemets:"</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">cout</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"&gt;&gt;&gt;\t"</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">print</span>(<span class="cm-variable">data</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">cout</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"&gt;&gt;&gt; time cost: "</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">fixed</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">setprecision</span>(<span class="cm-variable">PRECISION</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">chrono::duration</span><span class="cm-operator">&lt;</span><span class="cm-variable-3">double</span>, <span class="cm-variable">milli</span><span class="cm-operator">&gt;</span>(<span class="cm-variable">diff</span>).<span class="cm-variable">count</span>()<span class="cm-operator">/</span><span class="cm-variable">LOOP_SIZE</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"ms"</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">}</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable-3">void</span> <span class="cm-def">bi_insert_sort</span>(<span class="cm-keyword">const</span> <span class="cm-variable">array</span><span class="cm-operator">&lt;</span><span class="cm-variable-3">int</span>, <span class="cm-variable">TEST_SIZE</span><span class="cm-operator">&gt;&amp;</span> <span class="cm-variable">data_</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">{</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">start</span> <span class="cm-operator">=</span> <span class="cm-variable">chrono::steady_clock::now</span>();</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">data</span> <span class="cm-operator">=</span> <span class="cm-variable">data_</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">for</span> (<span class="cm-variable-3">int</span> <span class="cm-variable">i</span> <span class="cm-operator">=</span> <span class="cm-number">0</span>; <span class="cm-variable">i</span> <span class="cm-operator">&lt;</span> <span class="cm-variable">LOOP_SIZE</span>; <span class="cm-operator">++</span><span class="cm-variable">i</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  {<span class="cm-comment">// 用swap会慢一点（std::swap有2次操作（手写swap有3次）），直接往后拉就只有一次。</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">data</span> <span class="cm-operator">=</span> <span class="cm-variable">data_</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">for</span> (<span class="cm-variable-3">int</span> <span class="cm-variable">j</span> <span class="cm-operator">=</span> <span class="cm-number">1</span>; <span class="cm-variable">j</span> <span class="cm-operator">&lt;</span> <span class="cm-variable">TEST_SIZE</span>; <span class="cm-operator">++</span><span class="cm-variable">j</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">tmp</span> <span class="cm-operator">=</span> <span class="cm-variable">data</span>[<span class="cm-variable">j</span>];</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">beg</span> <span class="cm-operator">=</span> <span class="cm-number">0</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">end</span> <span class="cm-operator">=</span> <span class="cm-variable">j</span><span class="cm-operator">-</span><span class="cm-number">1</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">while</span>(<span class="cm-variable">beg</span> <span class="cm-operator">&lt;=</span> <span class="cm-variable">end</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">mid</span> <span class="cm-operator">=</span> (<span class="cm-variable">beg</span><span class="cm-operator">+</span><span class="cm-variable">end</span>)<span class="cm-operator">/</span><span class="cm-number">2</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">if</span>(<span class="cm-variable">data</span>[<span class="cm-variable">mid</span>] <span class="cm-operator">==</span> <span class="cm-variable">tmp</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">beg</span> <span class="cm-operator">=</span> <span class="cm-variable">mid</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">break</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">else</span> <span class="cm-keyword">if</span>(<span class="cm-variable">data</span>[<span class="cm-variable">mid</span>] <span class="cm-operator">&lt;</span> <span class="cm-variable">tmp</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">beg</span> <span class="cm-operator">=</span> <span class="cm-variable">mid</span><span class="cm-operator">+</span><span class="cm-number">1</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">else</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">end</span> <span class="cm-operator">=</span> <span class="cm-variable">mid</span><span class="cm-operator">-</span><span class="cm-number">1</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">for</span> (<span class="cm-variable-3">int</span> <span class="cm-variable">k</span> <span class="cm-operator">=</span> <span class="cm-variable">j</span>; <span class="cm-variable">k</span> <span class="cm-operator">&gt;</span> <span class="cm-variable">beg</span>; <span class="cm-operator">--</span><span class="cm-variable">k</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">data</span>[<span class="cm-variable">k</span>] <span class="cm-operator">=</span> <span class="cm-variable">data</span>[<span class="cm-variable">k</span><span class="cm-operator">-</span><span class="cm-number">1</span>];</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">data</span>[<span class="cm-variable">beg</span>] <span class="cm-operator">=</span> <span class="cm-variable">tmp</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">end</span> <span class="cm-operator">=</span> <span class="cm-variable">chrono::steady_clock::now</span>();</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">diff</span> <span class="cm-operator">=</span> (<span class="cm-variable">end</span><span class="cm-operator">-</span><span class="cm-variable">start</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">cout</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"[BI_INSERT SORT]: "</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"for "</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">TEST_SIZE</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">" elemets:"</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">cout</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"&gt;&gt;&gt;\t"</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">print</span>(<span class="cm-variable">data</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">cout</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"&gt;&gt;&gt; time cost: "</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">fixed</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">setprecision</span>(<span class="cm-variable">PRECISION</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">chrono::duration</span><span class="cm-operator">&lt;</span><span class="cm-variable-3">double</span>, <span class="cm-variable">milli</span><span class="cm-operator">&gt;</span>(<span class="cm-variable">diff</span>).<span class="cm-variable">count</span>()<span class="cm-operator">/</span><span class="cm-variable">LOOP_SIZE</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"ms"</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">}</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable-3">void</span> <span class="cm-def">shell_sort</span>(<span class="cm-keyword">const</span> <span class="cm-variable">array</span><span class="cm-operator">&lt;</span><span class="cm-variable-3">int</span>, <span class="cm-variable">TEST_SIZE</span><span class="cm-operator">&gt;&amp;</span> <span class="cm-variable">data_</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">{</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">start</span> <span class="cm-operator">=</span> <span class="cm-variable">chrono::steady_clock::now</span>();</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">data</span> <span class="cm-operator">=</span> <span class="cm-variable">data_</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">for</span> (<span class="cm-variable-3">int</span> <span class="cm-variable">k</span> <span class="cm-operator">=</span> <span class="cm-number">0</span>; <span class="cm-variable">k</span> <span class="cm-operator">&lt;</span> <span class="cm-variable">LOOP_SIZE</span>; <span class="cm-operator">++</span><span class="cm-variable">k</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">data</span> <span class="cm-operator">=</span> <span class="cm-variable">data_</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-comment">/* This part is related to the parameter SHELL_FACTOR */</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">// &nbsp; &nbsp; &nbsp;  for (int gap = TEST_SIZE / SHELL_FACTOR; gap &gt; 0; gap /= SHELL_FACTOR)</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">// &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  for (int i = gap; i &lt; TEST_SIZE; ++i)</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">// &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  for (int j = i; j - gap &gt;= 0 &amp;&amp; data[j - gap] &gt; data[j]; j -= gap)// Must be j&gt;=gap. Especially "=".</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">// &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  swap(data[j], data[j - gap]);</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable-3">int</span> <span class="cm-variable">step</span>[] <span class="cm-operator">=</span> { <span class="cm-number">1</span>, <span class="cm-number">5</span>, <span class="cm-number">19</span>, <span class="cm-number">41</span>, <span class="cm-number">109</span>, <span class="cm-number">209</span>, <span class="cm-number">505</span>, <span class="cm-number">929</span>, <span class="cm-number">2161</span>, <span class="cm-number">3905</span> };</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">for</span> (<span class="cm-variable-3">int</span> <span class="cm-variable">k</span> <span class="cm-operator">=</span> <span class="cm-number">9</span>; <span class="cm-variable">k</span> <span class="cm-operator">&gt;=</span> <span class="cm-number">0</span>; <span class="cm-variable">k</span><span class="cm-operator">--</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">gap</span> <span class="cm-operator">=</span> <span class="cm-variable">step</span>[<span class="cm-variable">k</span>];</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">for</span> (<span class="cm-variable-3">int</span> <span class="cm-variable">i</span> <span class="cm-operator">=</span> <span class="cm-variable">gap</span>; <span class="cm-variable">i</span> <span class="cm-operator">&lt;</span> <span class="cm-variable">TEST_SIZE</span>; <span class="cm-operator">++</span><span class="cm-variable">i</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">for</span> (<span class="cm-variable-3">int</span> <span class="cm-variable">j</span> <span class="cm-operator">=</span> <span class="cm-variable">i</span>; <span class="cm-variable">j</span> <span class="cm-operator">-</span> <span class="cm-variable">gap</span> <span class="cm-operator">&gt;=</span> <span class="cm-number">0</span> <span class="cm-operator">&amp;&amp;</span> <span class="cm-variable">data</span>[<span class="cm-variable">j</span> <span class="cm-operator">-</span> <span class="cm-variable">gap</span>] <span class="cm-operator">&gt;</span> <span class="cm-variable">data</span>[<span class="cm-variable">j</span>]; <span class="cm-variable">j</span> <span class="cm-operator">-=</span> <span class="cm-variable">gap</span>)<span class="cm-comment">// Must be j&gt;=gap. Especially "=".</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">swap</span>(<span class="cm-variable">data</span>[<span class="cm-variable">j</span>], <span class="cm-variable">data</span>[<span class="cm-variable">j</span> <span class="cm-operator">-</span> <span class="cm-variable">gap</span>]);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">end</span> <span class="cm-operator">=</span> <span class="cm-variable">chrono::steady_clock::now</span>();</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">diff</span> <span class="cm-operator">=</span> (<span class="cm-variable">end</span><span class="cm-operator">-</span><span class="cm-variable">start</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">cout</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"[SHELL SORT]: "</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"for "</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">TEST_SIZE</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">" elemets:"</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">cout</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"&gt;&gt;&gt;\t"</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">print</span>(<span class="cm-variable">data</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">cout</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"&gt;&gt;&gt; time cost: "</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">fixed</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">setprecision</span>(<span class="cm-variable">PRECISION</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">chrono::duration</span><span class="cm-operator">&lt;</span><span class="cm-variable-3">double</span>, <span class="cm-variable">milli</span><span class="cm-operator">&gt;</span>(<span class="cm-variable">diff</span>).<span class="cm-variable">count</span>()<span class="cm-operator">/</span><span class="cm-variable">LOOP_SIZE</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"ms"</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">}</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable-3">void</span> <span class="cm-def">bubble_sort</span>(<span class="cm-keyword">const</span> <span class="cm-variable">array</span><span class="cm-operator">&lt;</span><span class="cm-variable-3">int</span>, <span class="cm-variable">TEST_SIZE</span><span class="cm-operator">&gt;&amp;</span> <span class="cm-variable">data_</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">{</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">start</span> <span class="cm-operator">=</span> <span class="cm-variable">chrono::steady_clock::now</span>();</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">data</span> <span class="cm-operator">=</span> <span class="cm-variable">data_</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">for</span> (<span class="cm-variable-3">int</span> <span class="cm-variable">k</span> <span class="cm-operator">=</span> <span class="cm-number">0</span>; <span class="cm-variable">k</span> <span class="cm-operator">&lt;</span> <span class="cm-variable">LOOP_SIZE</span>; <span class="cm-operator">++</span><span class="cm-variable">k</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">data</span> <span class="cm-operator">=</span> <span class="cm-variable">data_</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">for</span> (<span class="cm-variable-3">int</span> <span class="cm-variable">i</span> <span class="cm-operator">=</span> <span class="cm-variable">TEST_SIZE</span><span class="cm-operator">-</span><span class="cm-number">1</span>; <span class="cm-variable">i</span> <span class="cm-operator">&gt;</span> <span class="cm-number">0</span>; <span class="cm-operator">--</span><span class="cm-variable">i</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">for</span> (<span class="cm-variable-3">int</span> <span class="cm-variable">j</span> <span class="cm-operator">=</span> <span class="cm-number">0</span>; <span class="cm-variable">j</span> <span class="cm-operator">&lt;</span> <span class="cm-variable">i</span>; <span class="cm-operator">++</span><span class="cm-variable">j</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">if</span> (<span class="cm-variable">data</span>[<span class="cm-variable">j</span>] <span class="cm-operator">&gt;</span> <span class="cm-variable">data</span>[<span class="cm-variable">j</span> <span class="cm-operator">+</span> <span class="cm-number">1</span>])</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">swap</span>(<span class="cm-variable">data</span>[<span class="cm-variable">j</span>], <span class="cm-variable">data</span>[<span class="cm-variable">j</span> <span class="cm-operator">+</span> <span class="cm-number">1</span>]);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">end</span> <span class="cm-operator">=</span> <span class="cm-variable">chrono::steady_clock::now</span>();</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">diff</span> <span class="cm-operator">=</span> (<span class="cm-variable">end</span><span class="cm-operator">-</span><span class="cm-variable">start</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">cout</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"[BUBBLE SORT]: "</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"for "</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">TEST_SIZE</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">" elemets:"</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">cout</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"&gt;&gt;&gt;\t"</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">print</span>(<span class="cm-variable">data</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">cout</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"&gt;&gt;&gt; time cost: "</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">fixed</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">setprecision</span>(<span class="cm-variable">PRECISION</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">chrono::duration</span><span class="cm-operator">&lt;</span><span class="cm-variable-3">double</span>, <span class="cm-variable">milli</span><span class="cm-operator">&gt;</span>(<span class="cm-variable">diff</span>).<span class="cm-variable">count</span>()<span class="cm-operator">/</span><span class="cm-variable">LOOP_SIZE</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"ms"</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">}</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable-3">void</span> <span class="cm-def">quick_sort</span>(<span class="cm-keyword">const</span> <span class="cm-variable">array</span><span class="cm-operator">&lt;</span><span class="cm-variable-3">int</span>, <span class="cm-variable">TEST_SIZE</span><span class="cm-operator">&gt;&amp;</span> <span class="cm-variable">data_</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">{</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">start</span> <span class="cm-operator">=</span> <span class="cm-variable">chrono::steady_clock::now</span>();</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">data</span> <span class="cm-operator">=</span> <span class="cm-variable">data_</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">random_device</span> <span class="cm-variable">rd_</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">for</span> (<span class="cm-variable-3">int</span> <span class="cm-variable">i</span> <span class="cm-operator">=</span> <span class="cm-number">0</span>; <span class="cm-variable">i</span> <span class="cm-operator">&lt;</span> <span class="cm-variable">LOOP_SIZE</span>; <span class="cm-operator">++</span><span class="cm-variable">i</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">data</span> <span class="cm-operator">=</span> <span class="cm-variable">data_</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">stack</span><span class="cm-operator">&lt;</span><span class="cm-variable">pair</span><span class="cm-operator">&lt;</span><span class="cm-variable">uint32_t</span>, <span class="cm-variable">uint32_t</span><span class="cm-operator">&gt;&gt;</span> <span class="cm-variable">range_stack</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">range_stack</span>.<span class="cm-variable">push</span>(<span class="cm-variable">pair</span><span class="cm-operator">&lt;</span><span class="cm-variable">uint32_t</span>, <span class="cm-variable">uint32_t</span><span class="cm-operator">&gt;</span>(<span class="cm-number">0</span>, <span class="cm-variable">TEST_SIZE</span>));</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">while</span> (<span class="cm-operator">!</span><span class="cm-variable">range_stack</span>.<span class="cm-variable">empty</span>())</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">range</span> <span class="cm-operator">=</span> <span class="cm-variable">range_stack</span>.<span class="cm-variable">top</span>();</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">range_stack</span>.<span class="cm-variable">pop</span>();</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">uint32_t</span> <span class="cm-variable">partition</span> <span class="cm-operator">=</span> <span class="cm-variable">data</span>[<span class="cm-variable">range</span>.<span class="cm-variable">first</span>];</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">uint32_t</span> <span class="cm-variable">i</span> <span class="cm-operator">=</span> <span class="cm-variable">range</span>.<span class="cm-variable">first</span>, <span class="cm-variable">j</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">for</span> (<span class="cm-variable">j</span> <span class="cm-operator">=</span> <span class="cm-variable">range</span>.<span class="cm-variable">first</span><span class="cm-operator">+</span><span class="cm-number">1</span>; <span class="cm-variable">j</span> <span class="cm-operator">&lt;</span> <span class="cm-variable">range</span>.<span class="cm-variable">second</span>; <span class="cm-variable">j</span><span class="cm-operator">++</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">if</span>(<span class="cm-variable">data</span>[<span class="cm-variable">j</span>] <span class="cm-operator">&lt;=</span> <span class="cm-variable">partition</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">swap</span>(<span class="cm-variable">data</span>[<span class="cm-operator">++</span><span class="cm-variable">i</span>], <span class="cm-variable">data</span>[<span class="cm-variable">j</span>]);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">swap</span>(<span class="cm-variable">data</span>[<span class="cm-variable">i</span>], <span class="cm-variable">data</span>[<span class="cm-variable">range</span>.<span class="cm-variable">first</span>]);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">if</span>(<span class="cm-variable">i</span> <span class="cm-operator">&gt;</span> <span class="cm-variable">range</span>.<span class="cm-variable">first</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">range_stack</span>.<span class="cm-variable">push</span>(<span class="cm-variable">pair</span><span class="cm-operator">&lt;</span><span class="cm-variable">uint32_t</span>, <span class="cm-variable">uint32_t</span><span class="cm-operator">&gt;</span>(<span class="cm-variable">range</span>.<span class="cm-variable">first</span>, <span class="cm-variable">i</span>));</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">if</span>(<span class="cm-variable">i</span><span class="cm-operator">+</span><span class="cm-number">1</span> <span class="cm-operator">&lt;</span> <span class="cm-variable">range</span>.<span class="cm-variable">second</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">range_stack</span>.<span class="cm-variable">push</span>(<span class="cm-variable">pair</span><span class="cm-operator">&lt;</span><span class="cm-variable">uint32_t</span>, <span class="cm-variable">uint32_t</span><span class="cm-operator">&gt;</span>(<span class="cm-variable">i</span><span class="cm-operator">+</span><span class="cm-number">1</span>, <span class="cm-variable">range</span>.<span class="cm-variable">second</span>));</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">end</span> <span class="cm-operator">=</span> <span class="cm-variable">chrono::steady_clock::now</span>();</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">diff</span> <span class="cm-operator">=</span> (<span class="cm-variable">end</span><span class="cm-operator">-</span><span class="cm-variable">start</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">cout</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"[QUICK SORT]: "</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"for "</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">TEST_SIZE</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">" elemets:"</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">cout</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"&gt;&gt;&gt;\t"</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">print</span>(<span class="cm-variable">data</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">cout</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"&gt;&gt;&gt; time cost: "</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">fixed</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">setprecision</span>(<span class="cm-variable">PRECISION</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">chrono::duration</span><span class="cm-operator">&lt;</span><span class="cm-variable-3">double</span>, <span class="cm-variable">milli</span><span class="cm-operator">&gt;</span>(<span class="cm-variable">diff</span>).<span class="cm-variable">count</span>()<span class="cm-operator">/</span><span class="cm-variable">LOOP_SIZE</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"ms"</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">}</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable-3">void</span> <span class="cm-def">select_sort</span>(<span class="cm-keyword">const</span> <span class="cm-variable">array</span><span class="cm-operator">&lt;</span><span class="cm-variable-3">int</span>, <span class="cm-variable">TEST_SIZE</span><span class="cm-operator">&gt;&amp;</span> <span class="cm-variable">data_</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">{</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">start</span> <span class="cm-operator">=</span> <span class="cm-variable">chrono::steady_clock::now</span>();</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">data</span> <span class="cm-operator">=</span> <span class="cm-variable">data_</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">for</span> (<span class="cm-variable-3">int</span> <span class="cm-variable">i</span> <span class="cm-operator">=</span> <span class="cm-number">0</span>; <span class="cm-variable">i</span> <span class="cm-operator">&lt;</span> <span class="cm-variable">LOOP_SIZE</span>; <span class="cm-operator">++</span><span class="cm-variable">i</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">data</span> <span class="cm-operator">=</span> <span class="cm-variable">data_</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">for</span> (<span class="cm-variable-3">int</span> <span class="cm-variable">j</span> <span class="cm-operator">=</span> <span class="cm-number">0</span>; <span class="cm-variable">j</span> <span class="cm-operator">&lt;</span> <span class="cm-variable">TEST_SIZE</span> <span class="cm-operator">-</span> <span class="cm-number">1</span>; <span class="cm-operator">++</span><span class="cm-variable">j</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">min_ind</span> <span class="cm-operator">=</span> <span class="cm-variable">j</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">for</span> (<span class="cm-variable-3">int</span> <span class="cm-variable">k</span> <span class="cm-operator">=</span> <span class="cm-variable">j</span>; <span class="cm-variable">k</span> <span class="cm-operator">&lt;</span> <span class="cm-variable">TEST_SIZE</span>; <span class="cm-operator">++</span><span class="cm-variable">k</span>) {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">if</span>(<span class="cm-variable">data</span>[<span class="cm-variable">k</span>] <span class="cm-operator">&lt;</span> <span class="cm-variable">data</span>[<span class="cm-variable">min_ind</span>])</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">min_ind</span> <span class="cm-operator">=</span> <span class="cm-variable">k</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">swap</span>(<span class="cm-variable">data</span>[<span class="cm-variable">min_ind</span>], <span class="cm-variable">data</span>[<span class="cm-variable">j</span>]);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">end</span> <span class="cm-operator">=</span> <span class="cm-variable">chrono::steady_clock::now</span>();</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">diff</span> <span class="cm-operator">=</span> (<span class="cm-variable">end</span><span class="cm-operator">-</span><span class="cm-variable">start</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">cout</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"[SELECT SORT]: "</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"for "</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">TEST_SIZE</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">" elemets:"</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">cout</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"&gt;&gt;&gt;\t"</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">print</span>(<span class="cm-variable">data</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">cout</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"&gt;&gt;&gt; time cost: "</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">fixed</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">setprecision</span>(<span class="cm-variable">PRECISION</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">chrono::duration</span><span class="cm-operator">&lt;</span><span class="cm-variable-3">double</span>, <span class="cm-variable">milli</span><span class="cm-operator">&gt;</span>(<span class="cm-variable">diff</span>).<span class="cm-variable">count</span>()<span class="cm-operator">/</span><span class="cm-variable">LOOP_SIZE</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"ms"</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">}</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable-3">void</span> <span class="cm-def">merge</span>(<span class="cm-variable">array</span><span class="cm-operator">&lt;</span><span class="cm-variable-3">int</span>, <span class="cm-variable">TEST_SIZE</span><span class="cm-operator">&gt;&amp;</span> <span class="cm-variable">arr</span>, <span class="cm-variable">uint32_t</span> <span class="cm-variable">beg</span>, <span class="cm-variable">uint32_t</span> <span class="cm-variable">mid</span>, <span class="cm-variable">uint32_t</span> <span class="cm-variable">end</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">{</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">left_vec</span> <span class="cm-operator">=</span> <span class="cm-variable">vector</span><span class="cm-operator">&lt;</span><span class="cm-variable-3">int</span><span class="cm-operator">&gt;</span>(<span class="cm-variable">arr</span>.<span class="cm-variable">begin</span>()<span class="cm-operator">+</span><span class="cm-variable">beg</span>, <span class="cm-variable">arr</span>.<span class="cm-variable">begin</span>()<span class="cm-operator">+</span><span class="cm-variable">mid</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">right_vec</span> <span class="cm-operator">=</span> <span class="cm-variable">vector</span><span class="cm-operator">&lt;</span><span class="cm-variable-3">int</span><span class="cm-operator">&gt;</span>(<span class="cm-variable">arr</span>.<span class="cm-variable">begin</span>()<span class="cm-operator">+</span><span class="cm-variable">mid</span>, <span class="cm-variable">arr</span>.<span class="cm-variable">begin</span>()<span class="cm-operator">+</span><span class="cm-variable">end</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">uint32_t</span> <span class="cm-variable">left_ind</span> <span class="cm-operator">=</span> <span class="cm-number">0</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">uint32_t</span> <span class="cm-variable">right_ind</span> <span class="cm-operator">=</span> <span class="cm-number">0</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">left_vec</span>.<span class="cm-variable">insert</span>(<span class="cm-variable">left_vec</span>.<span class="cm-variable">end</span>(), <span class="cm-variable">numeric_limits</span><span class="cm-operator">&lt;</span><span class="cm-variable-3">int</span><span class="cm-operator">&gt;</span>::<span class="cm-variable">max</span>());</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">right_vec</span>.<span class="cm-variable">insert</span>(<span class="cm-variable">right_vec</span>.<span class="cm-variable">end</span>(), <span class="cm-variable">numeric_limits</span><span class="cm-operator">&lt;</span><span class="cm-variable-3">int</span><span class="cm-operator">&gt;</span>::<span class="cm-variable">max</span>());</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">for</span>(; <span class="cm-variable">beg</span><span class="cm-operator">&lt;</span><span class="cm-variable">end</span>; <span class="cm-variable">beg</span><span class="cm-operator">++</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">if</span>(<span class="cm-variable">left_vec</span>[<span class="cm-variable">left_ind</span>] <span class="cm-operator">&gt;</span> <span class="cm-variable">right_vec</span>[<span class="cm-variable">right_ind</span>])</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">arr</span>[<span class="cm-variable">beg</span>] <span class="cm-operator">=</span> <span class="cm-variable">right_vec</span>[<span class="cm-variable">right_ind</span><span class="cm-operator">++</span>];</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">else</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">arr</span>[<span class="cm-variable">beg</span>] <span class="cm-operator">=</span> <span class="cm-variable">left_vec</span>[<span class="cm-variable">left_ind</span><span class="cm-operator">++</span>];</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">}</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable-3">void</span> <span class="cm-def">merge_sort_</span>(<span class="cm-variable">array</span><span class="cm-operator">&lt;</span><span class="cm-variable-3">int</span>, <span class="cm-variable">TEST_SIZE</span><span class="cm-operator">&gt;&amp;</span> <span class="cm-variable">arr</span>, <span class="cm-variable-3">int</span> <span class="cm-variable">beg</span><span class="cm-operator">=</span><span class="cm-number">0</span>, <span class="cm-variable-3">int</span> <span class="cm-variable">end</span><span class="cm-operator">=</span><span class="cm-variable">TEST_SIZE</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">{</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">if</span>(<span class="cm-variable">beg</span> <span class="cm-operator">&gt;=</span> <span class="cm-variable">end</span><span class="cm-operator">-</span><span class="cm-number">1</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">return</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable-3">int</span> <span class="cm-variable">mid</span> <span class="cm-operator">=</span> <span class="cm-variable">beg</span><span class="cm-operator">+</span>(<span class="cm-variable">end</span><span class="cm-operator">-</span><span class="cm-variable">beg</span>)<span class="cm-operator">/</span><span class="cm-number">2</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">merge_sort_</span>(<span class="cm-variable">arr</span>, <span class="cm-variable">beg</span>, <span class="cm-variable">mid</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">merge_sort_</span>(<span class="cm-variable">arr</span>, <span class="cm-variable">mid</span>, <span class="cm-variable">end</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">merge</span>(<span class="cm-variable">arr</span>, <span class="cm-variable">beg</span>, <span class="cm-variable">mid</span>, <span class="cm-variable">end</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">}</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable-3">void</span> <span class="cm-def">merge_sort</span>(<span class="cm-keyword">const</span> <span class="cm-variable">array</span><span class="cm-operator">&lt;</span><span class="cm-variable-3">int</span>, <span class="cm-variable">TEST_SIZE</span><span class="cm-operator">&gt;&amp;</span> <span class="cm-variable">data_</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">{</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">start</span> <span class="cm-operator">=</span> <span class="cm-variable">chrono::steady_clock::now</span>();</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">data</span> <span class="cm-operator">=</span> <span class="cm-variable">data_</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">for</span> (<span class="cm-variable-3">int</span> <span class="cm-variable">i</span> <span class="cm-operator">=</span> <span class="cm-number">0</span>; <span class="cm-variable">i</span> <span class="cm-operator">&lt;</span> <span class="cm-variable">LOOP_SIZE</span>; <span class="cm-operator">++</span><span class="cm-variable">i</span>) {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">data</span> <span class="cm-operator">=</span> <span class="cm-variable">data_</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">merge_sort_</span>(<span class="cm-variable">data</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">end</span> <span class="cm-operator">=</span> <span class="cm-variable">chrono::steady_clock::now</span>();</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">diff</span> <span class="cm-operator">=</span> (<span class="cm-variable">end</span><span class="cm-operator">-</span><span class="cm-variable">start</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">cout</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"[MERGE SORT]: "</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"for "</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">TEST_SIZE</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">" elemets:"</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">cout</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"&gt;&gt;&gt;\t"</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">print</span>(<span class="cm-variable">data</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">cout</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"&gt;&gt;&gt; time cost: "</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">fixed</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">setprecision</span>(<span class="cm-variable">PRECISION</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">chrono::duration</span><span class="cm-operator">&lt;</span><span class="cm-variable-3">double</span>, <span class="cm-variable">milli</span><span class="cm-operator">&gt;</span>(<span class="cm-variable">diff</span>).<span class="cm-variable">count</span>()<span class="cm-operator">/</span><span class="cm-variable">LOOP_SIZE</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"ms"</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">}</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">inline</span> <span class="cm-variable-3">void</span> <span class="cm-def">max_heapify</span>(<span class="cm-variable">array</span><span class="cm-operator">&lt;</span><span class="cm-variable-3">int</span>, <span class="cm-variable">TEST_SIZE</span><span class="cm-operator">&gt;&amp;</span> <span class="cm-variable">arr</span>, <span class="cm-variable">uint32_t</span> <span class="cm-variable">begin</span>, <span class="cm-variable">uint32_t</span> <span class="cm-variable">end</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">{</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">uint32_t</span> <span class="cm-variable">father</span> <span class="cm-operator">=</span> <span class="cm-variable">begin</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">uint32_t</span> <span class="cm-variable">left_son</span> <span class="cm-operator">=</span> <span class="cm-number">2</span><span class="cm-operator">*</span><span class="cm-variable">father</span><span class="cm-operator">+</span><span class="cm-number">1</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">while</span>(<span class="cm-variable">left_son</span> <span class="cm-operator">&lt;=</span> <span class="cm-variable">end</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">if</span>(<span class="cm-variable">left_son</span><span class="cm-operator">+</span><span class="cm-number">1</span> <span class="cm-operator">&lt;=</span> <span class="cm-variable">end</span> <span class="cm-operator">&amp;&amp;</span> <span class="cm-variable">arr</span>[<span class="cm-variable">left_son</span>] <span class="cm-operator">&lt;</span> <span class="cm-variable">arr</span>[<span class="cm-variable">left_son</span><span class="cm-operator">+</span><span class="cm-number">1</span>])</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">left_son</span><span class="cm-operator">++</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">if</span>(<span class="cm-variable">arr</span>[<span class="cm-variable">father</span>] <span class="cm-operator">&gt;</span> <span class="cm-variable">arr</span>[<span class="cm-variable">left_son</span>])</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">return</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">else</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">swap</span>(<span class="cm-variable">arr</span>[<span class="cm-variable">father</span>], <span class="cm-variable">arr</span>[<span class="cm-variable">left_son</span>]);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">father</span> <span class="cm-operator">=</span> <span class="cm-variable">left_son</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">left_son</span> <span class="cm-operator">=</span> <span class="cm-number">2</span><span class="cm-operator">*</span><span class="cm-variable">father</span><span class="cm-operator">+</span><span class="cm-number">1</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">}</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable-3">void</span> <span class="cm-def">heap_sort</span>(<span class="cm-keyword">const</span> <span class="cm-variable">array</span><span class="cm-operator">&lt;</span><span class="cm-variable-3">int</span>, <span class="cm-variable">TEST_SIZE</span><span class="cm-operator">&gt;&amp;</span> <span class="cm-variable">data_</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">{</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">start</span> <span class="cm-operator">=</span> <span class="cm-variable">chrono::steady_clock::now</span>();</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">data</span> <span class="cm-operator">=</span> <span class="cm-variable">data_</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">if</span>(<span class="cm-variable">TEST_SIZE</span> <span class="cm-operator">&lt;=</span> <span class="cm-number">1</span>){ <span class="cm-keyword">return</span>; }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">for</span> (<span class="cm-variable-3">int</span> <span class="cm-variable">k</span> <span class="cm-operator">=</span> <span class="cm-number">0</span>; <span class="cm-variable">k</span> <span class="cm-operator">&lt;</span> <span class="cm-variable">LOOP_SIZE</span>; <span class="cm-operator">++</span><span class="cm-variable">k</span>) {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">data</span> <span class="cm-operator">=</span> <span class="cm-variable">data_</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">for</span> (<span class="cm-variable-3">int</span> <span class="cm-variable">i</span> <span class="cm-operator">=</span> <span class="cm-variable">TEST_SIZE</span> <span class="cm-operator">/</span> <span class="cm-number">2</span> <span class="cm-operator">-</span> <span class="cm-number">1</span>; <span class="cm-variable">i</span> <span class="cm-operator">&gt;=</span> <span class="cm-number">0</span>; <span class="cm-variable">i</span><span class="cm-operator">--</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">max_heapify</span>(<span class="cm-variable">data</span>, <span class="cm-variable">i</span>, <span class="cm-variable">TEST_SIZE</span> <span class="cm-operator">-</span> <span class="cm-number">1</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-keyword">for</span> (<span class="cm-variable-3">int</span> <span class="cm-variable">i</span> <span class="cm-operator">=</span> <span class="cm-variable">TEST_SIZE</span> <span class="cm-operator">-</span> <span class="cm-number">1</span>; <span class="cm-variable">i</span> <span class="cm-operator">&gt;</span> <span class="cm-number">0</span>; <span class="cm-variable">i</span><span class="cm-operator">--</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">swap</span>(<span class="cm-variable">data</span>[<span class="cm-number">0</span>], <span class="cm-variable">data</span>[<span class="cm-variable">i</span>]);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">max_heapify</span>(<span class="cm-variable">data</span>, <span class="cm-number">0</span>, <span class="cm-variable">i</span> <span class="cm-operator">-</span> <span class="cm-number">1</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">end</span> <span class="cm-operator">=</span> <span class="cm-variable">chrono::steady_clock::now</span>();</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">diff</span> <span class="cm-operator">=</span> (<span class="cm-variable">end</span><span class="cm-operator">-</span><span class="cm-variable">start</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">cout</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"[HEAP SORT]: "</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"for "</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">TEST_SIZE</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">" elemets:"</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">cout</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"&gt;&gt;&gt;\t"</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">print</span>(<span class="cm-variable">data</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">cout</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"&gt;&gt;&gt; time cost: "</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">fixed</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">setprecision</span>(<span class="cm-variable">PRECISION</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">chrono::duration</span><span class="cm-operator">&lt;</span><span class="cm-variable-3">double</span>, <span class="cm-variable">milli</span><span class="cm-operator">&gt;</span>(<span class="cm-variable">diff</span>).<span class="cm-variable">count</span>()<span class="cm-operator">/</span><span class="cm-variable">LOOP_SIZE</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"ms"</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">}</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable-3">void</span> <span class="cm-def">std_sort</span>(<span class="cm-keyword">const</span> <span class="cm-variable">array</span><span class="cm-operator">&lt;</span><span class="cm-variable-3">int</span>, <span class="cm-variable">TEST_SIZE</span><span class="cm-operator">&gt;&amp;</span> <span class="cm-variable">data_</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">{</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">start</span> <span class="cm-operator">=</span> <span class="cm-variable">chrono::steady_clock::now</span>();</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">data</span> <span class="cm-operator">=</span> <span class="cm-variable">data_</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">for</span> (<span class="cm-variable-3">int</span> <span class="cm-variable">i</span> <span class="cm-operator">=</span> <span class="cm-number">0</span>; <span class="cm-variable">i</span> <span class="cm-operator">&lt;</span> <span class="cm-variable">LOOP_SIZE</span>; <span class="cm-operator">++</span><span class="cm-variable">i</span>) {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">data</span> <span class="cm-operator">=</span> <span class="cm-variable">data_</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">sort</span>(<span class="cm-variable">data</span>.<span class="cm-variable">begin</span>(), <span class="cm-variable">data</span>.<span class="cm-variable">end</span>());</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">end</span> <span class="cm-operator">=</span> <span class="cm-variable">chrono::steady_clock::now</span>();</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">auto</span> <span class="cm-variable">diff</span> <span class="cm-operator">=</span> (<span class="cm-variable">end</span><span class="cm-operator">-</span><span class="cm-variable">start</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">cout</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"[STD SORT]: "</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"for "</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">TEST_SIZE</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">" elemets:"</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">cout</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"&gt;&gt;&gt;\t"</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">print</span>(<span class="cm-variable">data</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">cout</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"&gt;&gt;&gt; time cost: "</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">fixed</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">setprecision</span>(<span class="cm-variable">PRECISION</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">chrono::duration</span><span class="cm-operator">&lt;</span><span class="cm-variable-3">double</span>, <span class="cm-variable">milli</span><span class="cm-operator">&gt;</span>(<span class="cm-variable">diff</span>).<span class="cm-variable">count</span>()<span class="cm-operator">/</span><span class="cm-variable">LOOP_SIZE</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"ms"</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">}</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable-3">int</span> <span class="cm-def">main</span>(){</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">ios_base::sync_with_stdio</span>(<span class="cm-atom">false</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">random_device</span> <span class="cm-variable">rd</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">default_random_engine</span> <span class="cm-variable">e</span>{<span class="cm-variable">rd</span>()};</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">uniform_int_distribution</span><span class="cm-operator">&lt;</span><span class="cm-variable-3">int</span><span class="cm-operator">&gt;</span> <span class="cm-variable">u</span>{<span class="cm-number">0</span>, <span class="cm-number">1000000</span>};</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">array</span><span class="cm-operator">&lt;</span><span class="cm-variable-3">int</span>, <span class="cm-variable">TEST_SIZE</span><span class="cm-operator">&gt;</span> <span class="cm-variable">test_array</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">for</span> (<span class="cm-variable-3">int</span> <span class="cm-variable">k</span> <span class="cm-operator">=</span> <span class="cm-number">0</span>; <span class="cm-variable">k</span> <span class="cm-operator">&lt;</span> <span class="cm-variable">TEST_SIZE</span>; <span class="cm-operator">++</span><span class="cm-variable">k</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">test_array</span>[<span class="cm-variable">k</span>] <span class="cm-operator">=</span> <span class="cm-variable">u</span>(<span class="cm-variable">e</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">time_test</span>(); <span class="cm-comment">// 时间测试</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">cout</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"--- 原始数组序列 ---"</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-string">"&gt;&gt;&gt;\t"</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">print</span>(<span class="cm-variable">test_array</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">cout</span> <span class="cm-operator">&lt;&lt;</span> <span class="cm-variable">endl</span>;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">insert_sort</span>(<span class="cm-variable">test_array</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">bi_insert_sort</span>(<span class="cm-variable">test_array</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">shell_sort</span>(<span class="cm-variable">test_array</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">bubble_sort</span>(<span class="cm-variable">test_array</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">select_sort</span>(<span class="cm-variable">test_array</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">quick_sort</span>(<span class="cm-variable">test_array</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">heap_sort</span>(<span class="cm-variable">test_array</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">merge_sort</span>(<span class="cm-variable">test_array</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">std_sort</span>(<span class="cm-variable">test_array</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">}</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 11076px;"></div><div class="CodeMirror-gutters" style="display: none; height: 11076px;"></div></div></div></pre><p>&nbsp;</p></div>
-</body>
-</html>
