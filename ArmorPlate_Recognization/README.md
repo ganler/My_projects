@@ -2,7 +2,13 @@
 
 > Given by Jaway Liu. 
 >
-> 25th Nov.
+> 2018 25th Nov.
+
+## Note
+
+Finally I found a better method to do this job without deeplearning. (And it's faster.) I'll make it open source once RM2019 is over.
+(Also I made a better deeplearning trainning version last year. Coming soon! )
+中文：最终我跳出了dl的局限圈，使用了一些非dl的方法，在效率、准确度和鲁棒性上都大有提升。当robomaster2019比赛结束后，我将开源这个方法。**btw，庆祝同济大学的superpower战队取得了中部赛的一等奖！！！**
 
 ## Comments
 
