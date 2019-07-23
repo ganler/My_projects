@@ -1,0 +1,1 @@
+Remember to extract files in /img2ascii/img2ascii/imsrc.zip first
